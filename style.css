@@ -1,0 +1,128 @@
+@font-face {
+  font-family: 'HK Grotesk';
+  src: url('/fonts/hk-grotesk.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+:root {
+    --main-font: 'HK Grotesk', Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: var(--main-font);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 600;
+    letter-spacing: 2px;
+    font-size: 15px;
+    color: #1E2C74;
+    background: #f8f9fa;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #222;
+    color: #fff;
+    padding: 0.5rem 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.navbar-left .logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.navbar-right a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: #333;
+    min-width: 140px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    z-index: 1;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: #fff;
+    padding: 0.7rem 1rem;
+    display: block;
+    text-align: left;
+    text-decoration: none;
+    background: #333;
+    transition: background 0.2s;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.lang-switch {
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.lang-switch select {
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    font-size: 1rem;
+}
+
+@media (max-width: 700px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+    .navbar-right {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        width: 100%;
+    }
+    .dropdown-content {
+        right: auto;
+        left: 0;
+    }
+} 
