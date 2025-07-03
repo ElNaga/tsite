@@ -10,6 +10,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     backdrop-filter: blur(8px);
+    position: relative;
+    z-index: 1000;
 }
 
 .navbar-left .logo {
@@ -92,7 +94,7 @@
     background: rgba(255,255,255,0.95);
     min-width: 140px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    z-index: 1;
+    z-index: 1100;
     border-radius: 0 0 6px 6px;
     overflow: hidden;
 }
@@ -162,13 +164,20 @@
     color: #1E2C74;
     border: 1px solid #1E2C74;
     border-radius: 4px;
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 1.5rem 0.2rem 0.7rem;
     font-size: 15px;
     font-family: var(--main-font);
     font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
     transition: color 0.3s, border-color 0.3s;
+    min-width: 120px;
+    width: auto;
+    max-width: 200px;
+}
+
+.lang-switch label {
+    margin-right: 0.5rem;
 }
 
 @media (max-width: 700px) {

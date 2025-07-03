@@ -2,7 +2,7 @@
 session_start();
 
 class I18nService {
-    private static $languages = ['en' => 'English', 'fr' => 'Français'];
+    private static $languages = ['en' => 'English', 'fr' => 'Français', 'mk' => 'Македонски'];
     private static $translations = [
         'en' => [
             'home' => 'Home',
@@ -17,6 +17,12 @@ class I18nService {
             'event_title' => 'Special Event: Summer Gala',
             'event_desc' => 'Join us for an unforgettable evening of fun, food, and festivities. Reserve your spot now!',
             'book_now' => 'Book now',
+            'service1_title' => 'Birthdays with Animators',
+            'service1_desc' => 'Unforgettable birthdays with games, music, and professional animators to entertain the kids.',
+            'service2_title' => 'Theatre Performances',
+            'service2_desc' => 'Interactive and educational theatre shows for children of all ages.',
+            'service3_title' => 'Creative Workshops',
+            'service3_desc' => 'Creative workshops where kids learn through play, drawing, and making crafts.',
         ],
         'fr' => [
             'home' => 'Accueil',
@@ -31,6 +37,32 @@ class I18nService {
             'event_title' => 'Événement spécial : Gala d\'été',
             'event_desc' => 'Rejoignez-nous pour une soirée inoubliable de plaisir, de gastronomie et de festivités. Réservez votre place dès maintenant !',
             'book_now' => 'Réserver',
+            'service1_title' => 'Anniversaires avec animateurs',
+            'service1_desc' => 'Des anniversaires inoubliables avec des jeux, de la musique et des animateurs professionnels pour divertir les enfants.',
+            'service2_title' => 'Spectacles de théâtre',
+            'service2_desc' => 'Des spectacles de théâtre interactifs et éducatifs pour les enfants de tous âges.',
+            'service3_title' => 'Ateliers créatifs',
+            'service3_desc' => 'Des ateliers créatifs où les enfants apprennent en jouant, dessinant et fabriquant des objets.',
+        ],
+        'mk' => [
+            'home' => 'Дома',
+            'about' => 'За нас',
+            'offer' => 'Понуда',
+            'offer1' => 'Услуга 1',
+            'offer2' => 'Услуга 2',
+            'blog' => 'Блог',
+            'contact' => 'Контакт',
+            'language' => 'Јазик',
+            'event_image_alt' => 'Слика од настанот',
+            'event_title' => 'Специјален настан: Летен гала',
+            'event_desc' => 'Придружете ни се за незаборавна вечер исполнета со забава, храна и свечености. Резервирајте го вашето место сега!',
+            'book_now' => 'Резервирај',
+            'service1_title' => 'Родендени со аниматори',
+            'service1_desc' => 'Незаборавни родендени со игри, музика и професионални аниматори кои ги забавуваат децата.',
+            'service2_title' => 'Претстави',
+            'service2_desc' => 'Интерактивни и едукативни театарски претстави за деца од сите возрасти.',
+            'service3_title' => 'Работилници',
+            'service3_desc' => 'Креативни работилници каде децата учат преку игра, цртање и изработка на ракотворби.',
         ],
     ];
 

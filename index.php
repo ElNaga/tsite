@@ -13,6 +13,16 @@ require_once __DIR__ . '/i18n.php';
 </head>
 <body>
     <?php include __DIR__ . '/components/navbar/navbar.php'; ?>
-    <?php include __DIR__ . '/components/hero/hero.php'; ?>
+    <?php
+    $page = $_GET['page'] ?? 'home';
+    $allowed = ['about', 'offer', 'offer1', 'offer2', 'blog', 'contact'];
+    if ($page === 'home') {
+        include __DIR__ . '/components/hero/hero.php';
+    } elseif (in_array($page, $allowed)) {
+        include __DIR__ . "/components/navbar/" . ucfirst($page) . ".php";
+    } else {
+        echo '<div>Page not found</div>';
+    }
+    ?>
 </body>
 </html> 
