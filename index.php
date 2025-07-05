@@ -10,6 +10,7 @@ require_once __DIR__ . '/i18n.php';
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="components/navbar/navbar.css">
     <link rel="stylesheet" href="components/hero/hero.css">
+    <link rel="stylesheet" href="components/hero/aboutus.css">
 </head>
 <body>
     <?php include __DIR__ . '/components/navbar/navbar.php'; ?>

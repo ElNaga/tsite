@@ -30,6 +30,7 @@ $events = EventService::getAllEvents(I18nService::getCurrentLang());
     </div>
 </section>
 <?php include __DIR__ . '/servicesoffered.php'; ?>
+<?php include __DIR__ . '/aboutus.php'; ?>
 <script>
 const events = <?php echo json_encode($events); ?>;
 let currentIdx = 0;

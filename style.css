@@ -1,10 +1,16 @@
 @font-face {
-  font-family: 'HK Grotesk';
-  src: url('/fonts/hk-grotesk.woff2') format('woff2');
-  font-weight: 400 700;
-  font-display: swap;
-}
-
+    font-family: 'LobsterTwo-Latin';
+    src: url('https://fonts.googleapis.com/css2?family=Lobster+Two&display=swap') format('woff2');
+    unicode-range: U+0000-00FF, U+0100-024F;
+  }
+  @font-face {
+    font-family: 'LobsterTwo-Cyrillic';
+    src: url('LobsterCyrillic.woff2') format('woff2');
+    unicode-range: U+0400-04FF, U+0500-052F;
+  }
+  body {
+    font-family: 'LobsterTwo-Latin','LobsterTwo-Cyrillic', cursive;
+  }
 :root {
     --main-font: 'HK Grotesk', Arial, sans-serif;
 }
