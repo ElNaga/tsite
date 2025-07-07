@@ -29,6 +29,10 @@ class I18nService {
             'about_values_desc' => 'Every child deserves joy, learning, and magical moments. We believe in nurturing creativity and building confidence.',
             'about_approach_title' => 'Our Approach',
             'about_approach_list' => 'Interactive performances that engage children|Educational content disguised as fun|Safe, inclusive environments for all|Professional animators and educators|Customized experiences for different ages',
+            'party_animation_title' => "Children's parties Animation",
+            'party_animation_body' => "We organize children's parties and we believe it is essential to be constantly aware of trends and current events. Only in this way can we live up to the children's universe and fully correspond to their preferences. Our team is young and active, available and ready to embark on any adventure.\n\nWe do different activities depending on the theme of the party and the children's preferences. We have science or cooking workshops and we organize football matches. We have magic or puppet shows available and we do face painting. We work with teams of animators who make the entertainment properly characterized or through mascots.",
+            'party_ideas_title' => 'Ideas for birthday parties',
+            'party_ideas_body' => 'No ideas for birthday parties? At Animate we are available to help. We are creative, we are always innovating and looking for what makes children happy according to the current situation, always adapting each game to their age. Talk to us and together we will have the best ideas for memorable birthday parties that will delight the kids and guests.',
         ],
         'fr' => [
             'home' => 'Accueil',
@@ -55,6 +59,10 @@ class I18nService {
             'about_values_desc' => 'Chaque enfant mérite la joie, l\'apprentissage et des moments magiques. Nous croyons en l\'épanouissement de la créativité et le développement de la confiance.',
             'about_approach_title' => 'Notre Approche',
             'about_approach_list' => 'Spectacles interactifs qui engagent les enfants|Contenu éducatif déguisé en amusement|Environnements sûrs et inclusifs pour tous|Animateurs et éducateurs professionnels|Expériences personnalisées selon l\'âge',
+            'party_animation_title' => "Animation pour fêtes d'enfants",
+            'party_animation_body' => "Nous organisons des fêtes pour enfants et nous pensons qu'il est essentiel de rester constamment à l'écoute des tendances et des événements actuels. Ce n'est qu'ainsi que nous pouvons répondre à l'univers des enfants et à leurs préférences. Notre équipe est jeune et dynamique, disponible et prête à se lancer dans toutes les aventures.\n\nNous proposons différentes activités selon le thème de la fête et les préférences des enfants. Nous organisons des ateliers scientifiques ou culinaires et des matchs de football. Nous proposons des spectacles de magie ou de marionnettes et nous faisons du maquillage. Nous travaillons avec des équipes d'animateurs qui assurent une animation adaptée ou sous forme de mascottes.",
+            'party_ideas_title' => 'Idées pour les fêtes d\'anniversaire',
+            'party_ideas_body' => "Pas d'idées pour les fêtes d'anniversaire ? Chez Animate, nous sommes là pour vous aider. Nous sommes créatifs, nous innovons sans cesse et cherchons ce qui rend les enfants heureux selon la situation actuelle, en adaptant chaque jeu à leur âge. Parlez-nous et ensemble nous trouverons les meilleures idées pour des fêtes d'anniversaire mémorables qui raviront les enfants et les invités.",
         ],
         'mk' => [
             'home' => 'Дома',
@@ -81,6 +89,10 @@ class I18nService {
             'about_values_desc' => 'Секое дете заслужува радост, учење и магични моменти. Веруваме во негување на креативноста и градење на самодоверба.',
             'about_approach_title' => 'Нашиот Пристап',
             'about_approach_list' => 'Интерактивни претстави што ги ангажираат децата|Едукативна содржина преправена како забава|Безбедни, инклузивни средини за сите|Професионални аниматори и едукатори|Прилагодени искуства за различни возрасти',
+            'party_animation_title' => 'Анимација за детски народи',
+            'party_animation_body' => 'Организираме детски народи и веруваме дека е важно постојано да се следат трендовите и актуелните настани. Само така можеме да одговориме на детскиот универзум и целосно да ги исполниме нивните желби. Нашиот тим е млад и активен, секогаш подготвен за нови авантури.\n\nОрганизираме различни активности според темата на роденденот и желбите на децата. Имаме научни или кулинарски работилници, организираме фудбалски натпревари, магионичарски или куклени претстави, како и осликување на лице. Работиме со тимови на аниматори кои ја прават забавата уникатна и прилагодена.',
+            'party_ideas_title' => 'Идеи за родендени',
+            'party_ideas_body' => 'Немате идеи за роденден? Во Animate сме тука да помогнеме. Креативни сме, постојано иновираме и бараме што ги прави децата среќни според моменталната ситуација, секогаш прилагодувајќи ги игрите според возраста. Контактирајте не и заедно ќе ги најдеме најдобрите идеи за незаборавни народи кои ќе ги воодушеват децата и гостите.',
         ],
     ];
 
