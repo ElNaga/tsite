@@ -24,4 +24,5 @@
             </p>
         </div>
     </div>
-</section> 
+</section>
+<div class="about-divider"></div> 

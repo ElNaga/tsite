@@ -25,5 +25,6 @@ require_once __DIR__ . '/i18n.php';
         echo '<div>Page not found</div>';
     }
     ?>
+    <?php include __DIR__ . '/components/hero/footer.php'; ?>
 </body>
 </html> 

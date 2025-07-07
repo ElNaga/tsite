@@ -205,7 +205,7 @@
 
 .services-offered-section {
     width: 100%;
-    background: #fffbe9;
+    /* background: #fffbe9; */
     padding: 48px 0 36px 0;
     display: flex;
     justify-content: center;
@@ -217,6 +217,9 @@
     display: flex;
     gap: 36px;
     width: 100%;
+    max-width: 1200px;
+    padding: 0 2rem;
+    box-sizing: border-box;
     justify-content: center;
     align-items: stretch;
     position: relative;

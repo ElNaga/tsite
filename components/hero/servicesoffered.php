@@ -2,19 +2,29 @@
 $lang = I18nService::getCurrentLang();
 $servicesOffered = [
     [
-        'icon' => '🎉',
+        'icon' => '🎭',
         'title_key' => 'service1_title',
         'desc_key' => 'service1_desc',
     ],
     [
-        'icon' => '🎭',
+        'icon' => '🤠',
         'title_key' => 'service2_title',
         'desc_key' => 'service2_desc',
     ],
     [
-        'icon' => '🖍️',
+        'icon' => '📚',
         'title_key' => 'service3_title',
         'desc_key' => 'service3_desc',
+    ],
+    [
+        'icon' => '📝',
+        'title_key' => 'service4_title',
+        'desc_key' => 'service4_desc',
+    ],
+    [
+        'icon' => '🕺',
+        'title_key' => 'service5_title',
+        'desc_key' => 'service5_desc',
     ],
 ];
 ?>
