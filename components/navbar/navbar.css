@@ -10,8 +10,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     backdrop-filter: blur(8px);
-    position: relative;
-    z-index: 1000;
+    position: sticky;
+    top: 0;
+    z-index: 2000;
 }
 
 .navbar-left .logo {
@@ -196,4 +197,16 @@
         right: auto;
         left: 0;
     }
+} 
+
+:root {
+    --font-title: 'Caveat', cursive, Arial, sans-serif;
+}
+
+.navbar,
+.navbar-left .logo,
+.navbar-right a,
+.dropbtn,
+.dropdown-content a {
+    font-family: var(--font-title);
 } 

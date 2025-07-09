@@ -12,19 +12,23 @@ $events = EventService::getAllEvents(I18nService::getCurrentLang());
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <div class="hero-event-card" id="hero-event-card">
-            <img id="hero-event-image" src="<?= htmlspecialchars($events[0]['image']) ?>" alt="<?= htmlspecialchars($events[0]['image_alt']) ?>" class="hero-event-image">
-            <div class="hero-event-info">
-                <h1 class="hero-event-title" id="hero-event-title"><?= htmlspecialchars($events[0]['title']) ?></h1>
-                <p class="hero-event-desc" id="hero-event-desc"><?= htmlspecialchars($events[0]['desc']) ?></p>
-                <a href="<?= htmlspecialchars($events[0]['book_url']) ?>" class="hero-event-btn" id="hero-event-btn"><?= htmlspecialchars($events[0]['book_label']) ?></a>
-            </div>
-            <div class="hero-event-progress-container">
-                <div class="hero-event-progress-bar" id="hero-event-progress-bar"></div>
-            </div>
-            <div class="hero-event-list">
-                <?php foreach ($events as $idx => $ev): ?>
-                    <span class="hero-event-list-dot" data-idx="<?= $idx ?>"></span>
-                <?php endforeach; ?>
+            <div class="hero-event-split">
+                <div class="hero-event-info">
+                    <h1 class="hero-event-title" id="hero-event-title"><?= htmlspecialchars($events[0]['title']) ?></h1>
+                    <p class="hero-event-desc" id="hero-event-desc"><?= htmlspecialchars($events[0]['desc']) ?></p>
+                    <a href="<?= htmlspecialchars($events[0]['book_url']) ?>" class="hero-event-btn" id="hero-event-btn"><?= htmlspecialchars($events[0]['book_label']) ?></a>
+                    <div class="hero-event-progress-container">
+                        <div class="hero-event-progress-bar" id="hero-event-progress-bar"></div>
+                    </div>
+                    <div class="hero-event-list">
+                        <?php foreach ($events as $idx => $ev): ?>
+                            <span class="hero-event-list-dot" data-idx="<?= $idx ?>"></span>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <div class="hero-event-image-side">
+                    <img id="hero-event-image" src="<?= htmlspecialchars($events[0]['image']) ?>" alt="<?= htmlspecialchars($events[0]['image_alt']) ?>" class="hero-event-image">
+                </div>
             </div>
         </div>
     </div>

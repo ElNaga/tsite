@@ -10,12 +10,12 @@
             </p>
         </div>
         <div class="party-ideas-image-col">
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80" alt="Children's party animation" class="party-ideas-image" />
+            <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=900&q=80" alt="Children's party animation" class="party-ideas-image" />
         </div>
     </div>
     <div class="party-ideas-row party-ideas-row-bg">
         <div class="party-ideas-image-col">
-            <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=900&q=80" alt="Birthday party ideas" class="party-ideas-image" />
+            <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=900&q=80" alt="Birthday party ideas" class="party-ideas-image no-radius" />
         </div>
         <div class="party-ideas-text-col party-ideas-bg">
             <h2 class="party-ideas-heading"><?= htmlspecialchars(I18nService::t('party_ideas_title')) ?></h2>

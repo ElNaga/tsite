@@ -32,18 +32,18 @@ $aboutSections = [
             <h2 class="about-heading"><?= htmlspecialchars(I18nService::t($aboutSections[1]['heading_key'])) ?></h2>
             <p class="about-body"><?= htmlspecialchars(I18nService::t($aboutSections[1]['body_key'])) ?></p>
         </div>
-        <div class="about-column">
+            <div class="about-column">
             <div class="about-icon"><?= $aboutSections[2]['icon'] ?></div>
             <h2 class="about-heading"><?= htmlspecialchars(I18nService::t($aboutSections[2]['heading_key'])) ?></h2>
-            <ul class="about-list">
-                <?php 
+                    <ul class="about-list">
+                        <?php 
                 $listItems = explode('|', I18nService::t($aboutSections[2]['body_key']));
-                foreach ($listItems as $item): 
-                ?>
-                    <li><?= htmlspecialchars(trim($item)) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+                        foreach ($listItems as $item): 
+                        ?>
+                            <li><?= htmlspecialchars(trim($item)) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+            </div>
     </div>
     <div class="about-divider"></div>
 </section> 
