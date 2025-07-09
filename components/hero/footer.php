@@ -5,7 +5,7 @@
     <div class="footer-main-modern footer-cols">
         <div class="footer-col footer-brand-modern">
             <div class="footer-logo-modern icon-shadow">🎭</div>
-            <div class="footer-brand-title">Teatar za tebe</div>
+            <div class="footer-brand-title">Театар за тебе</div>
             <div class="footer-brand-desc-modern">
                 <?= htmlspecialchars(I18nService::t('footer_page_desc')) ?>
             </div>
@@ -25,6 +25,6 @@
         </div>
     </div>
     <div class="footer-bottom-modern">
-        <span>&copy; <?= date('Y') ?> Teatar za tebe. <?= I18nService::t('footer_rights') ?></span>
+        <span>&copy; <?= date('Y') ?> Театар за тебе. <?= I18nService::t('footer_rights') ?></span>
     </div>
 </footer> 
