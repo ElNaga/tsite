@@ -11,17 +11,9 @@ require_once __DIR__ . '/i18n.php';
     <link rel="stylesheet" href="components/navbar/navbar.css">
     <link rel="stylesheet" href="components/hero/hero.css">
     <link rel="stylesheet" href="components/hero/aboutus.css">
-    <!-- Google Fonts: Montserrat for titles, Roboto for body, both with Cyrillic and Latin support -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap&subset=latin,cyrillic" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap&subset=latin,cyrillic" rel="stylesheet">
-    <!-- Google Fonts: Bad Script for titles -->
-    <link href="https://fonts.googleapis.com/css2?family=Bad+Script&display=swap" rel="stylesheet">
-    <!-- Google Fonts: Caveat for titles -->
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
-    <!-- Google Fonts: Caveat for titles, Poiret One for body -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bad+Script&family=Caveat:wght@400..700&family=Pacifico&family=Poiret+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="components/hero/footer.css">
+    <!-- Google Fonts: Caveat and Poiret One, both with latin and cyrillic support -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poiret+One&display=swap&subset=latin,cyrillic" rel="stylesheet">
 </head> 
 <body>
     <?php include __DIR__ . '/components/navbar/navbar.php'; ?>
