@@ -47,7 +47,15 @@ debug_to_console("Test message");
     $page = $path ?: 'home';
     debug_to_console($page, "Parsed page from path");
     $allowed = ['about', 'offer', 'offer1', 'offer2', 'blog', 'contact', 'home'];
-    if ($page === 'home') {
+    // Admin route protection
+    if ($page === 'admin') {
+        session_start();
+        if (empty($_SESSION['is_admin'])) {
+            header('Location: /home');
+            exit;
+        }
+        include __DIR__ . '/components/admin/admin.php';
+    } elseif ($page === 'home') {
         include __DIR__ . '/components/hero/hero.php';
     } elseif (in_array($page, $allowed)) {
         include __DIR__ . "/components/navbar/" . ucfirst($page) . ".php";

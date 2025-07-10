@@ -3,164 +3,131 @@ require_once __DIR__ . '/../models/EventModel.php';
 require_once __DIR__ . '/../../i18n.php';
 
 class EventService {
-    private static $events = [
-        'en' => [
-            [
-                'id' => 1,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/roden_den_so_veselba.jpg',
-                'title' => 'Birthday Without Fun',
-                'desc' => 'A humorous kids play with balloons, music, and surprises. Don’t miss it!',
-                'book_url' => '#book1',
-                'book_label' => 'Book now',
-                'image_alt' => 'Image from Birthday Without Fun play',
-            ],
-            [
-                'id' => 2,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/patot_na_ljubovta.jpg',
-                'title' => 'The Path of Love',
-                'desc' => 'An educational show about emotions, friendship, and love – perfect for family audiences.',
-                'book_url' => '#book2',
-                'book_label' => 'Book now',
-                'image_alt' => 'Image from The Path of Love play',
-            ],
-            [
-                'id' => 3,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/magichna_zabava.jpg',
-                'title' => 'Magical Fun',
-                'desc' => 'Magic, laughter, and unforgettable fun for the little ones. A show that wins hearts!',
-                'book_url' => '#book3',
-                'book_label' => 'Book now',
-                'image_alt' => 'Image from Magical Fun show',
-            ],
-            [
-                'id' => 4,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/detski_karneval.jpg',
-                'title' => 'Kids Carnival',
-                'desc' => 'A cheerful carnival for the little ones, with costumes, games, and prizes!',
-                'book_url' => '#book4',
-                'book_label' => 'Book now',
-                'image_alt' => 'Image from Kids Carnival',
-            ],
-            [
-                'id' => 5,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/vecher_na_prikazni.jpg',
-                'title' => 'Storytelling Night',
-                'desc' => 'An interactive night with classic and modern children’s stories brought to life.',
-                'book_url' => '#book5',
-                'book_label' => 'Book now',
-                'image_alt' => 'Image from Storytelling Night',
-            ],
-        ],
-        'mk' => [
-            [
-                'id' => 1,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/roden_den_so_veselba.jpg',
-                'title' => 'Роденден без Веселба',
-                'desc' => 'Хумористична претстава за деца со балони, музика и изненадувања. Не ја пропуштајте!',
-                'book_url' => '#book1',
-                'book_label' => 'Резервирај',
-                'image_alt' => 'Слика од претставата Роденден без Веселба',
-            ],
-            [
-                'id' => 2,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/patot_na_ljubovta.jpg',
-                'title' => 'Патот на Љубовта',
-                'desc' => 'Едукативна претстава за емоциите, пријателството и љубовта – совршена за семејна публика.',
-                'book_url' => '#book2',
-                'book_label' => 'Резервирај',
-                'image_alt' => 'Слика од претставата Патот на Љубовта',
-            ],
-            [
-                'id' => 3,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/magichna_zabava.jpg',
-                'title' => 'Магична Забава',
-                'desc' => 'Магија, смеење и незаборавна забава за најмалите. Претстава што ги освојува срцата!',
-                'book_url' => '#book3',
-                'book_label' => 'Резервирај',
-                'image_alt' => 'Слика од претставата Магична Забава',
-            ],
-            [
-                'id' => 4,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/detski_karneval.jpg',
-                'title' => 'Детски Карневал',
-                'desc' => 'Весела и шарена карневалска атмосфера за најмладите, со маски, игри и награди!',
-                'book_url' => '#book4',
-                'book_label' => 'Резервирај',
-                'image_alt' => 'Слика од Детски Карневал',
-            ],
-            [
-                'id' => 5,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/vecher_na_prikazni.jpg',
-                'title' => 'Вечер на Приказни',
-                'desc' => 'Интерактивна вечер со класични и нови детски приказни оживеани на сцена.',
-                'book_url' => '#book5',
-                'book_label' => 'Резервирај',
-                'image_alt' => 'Слика од Вечер на Приказни',
-            ],
-        ],
-        'fr' => [
-            [
-                'id' => 1,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/roden_den_so_veselba.jpg',
-                'title' => 'Anniversaire Sans Joie',
-                'desc' => 'Une pièce humoristique pour enfants avec des ballons, de la musique et des surprises. Ne la manquez pas !',
-                'book_url' => '#book1',
-                'book_label' => 'Réserver',
-                'image_alt' => 'Image de la pièce Anniversaire Sans Joie',
-            ],
-            [
-                'id' => 2,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/patot_na_ljubovta.jpg',
-                'title' => 'Le Chemin de l’Amour',
-                'desc' => 'Un spectacle éducatif sur les émotions, l’amitié et l’amour – parfait pour toute la famille.',
-                'book_url' => '#book2',
-                'book_label' => 'Réserver',
-                'image_alt' => 'Image de la pièce Le Chemin de l’Amour',
-            ],
-            [
-                'id' => 3,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/magichna_zabava.jpg',
-                'title' => 'Amusement Magique',
-                'desc' => 'Magie, rires et divertissement inoubliable pour les plus petits. Un spectacle qui touche les cœurs !',
-                'book_url' => '#book3',
-                'book_label' => 'Réserver',
-                'image_alt' => 'Image du spectacle Amusement Magique',
-            ],
-            [
-                'id' => 4,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/detski_karneval.jpg',
-                'title' => 'Carnaval pour Enfants',
-                'desc' => 'Un carnaval joyeux pour les petits, avec des costumes, des jeux et des prix !',
-                'book_url' => '#book4',
-                'book_label' => 'Réserver',
-                'image_alt' => 'Image du Carnaval pour Enfants',
-            ],
-            [
-                'id' => 5,
-                'image' => 'https://www.teatarzatebe.mk/assets/images/vecher_na_prikazni.jpg',
-                'title' => 'Soirée de Contes',
-                'desc' => 'Une soirée interactive avec des contes classiques et modernes pour enfants, mis en scène.',
-                'book_url' => '#book5',
-                'book_label' => 'Réserver',
-                'image_alt' => 'Image de la Soirée de Contes',
-            ],
-        ],
-    ];
+    private static $file = __DIR__ . '/../../data/events.json';
+    private static $events = null;
+    private static $transactionsFile = __DIR__ . '/../../data/transactions.json';
 
-    /**
-     * @param string $lang
-     * @return EventModel[]
-     */
-    public static function getAllEvents($lang = 'en') {
-        return self::$events[$lang] ?? self::$events['en'];
+    private static function loadEvents() {
+        if (self::$events !== null) return;
+        if (!file_exists(self::$file)) {
+            self::$events = [ 'en' => [], 'mk' => [], 'fr' => [] ];
+            self::saveEvents();
+        } else {
+            $json = file_get_contents(self::$file);
+            self::$events = json_decode($json, true) ?: [ 'en' => [], 'mk' => [], 'fr' => [] ];
+        }
     }
 
-    /**
-     * @param string $lang
-     * @return EventModel
-     */
+    private static function saveEvents() {
+        file_put_contents(self::$file, json_encode(self::$events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    }
+
+    public static function getAllEvents($lang = 'en') {
+        self::loadEvents();
+        return self::$events[$lang] ?? [];
+    }
+
     public static function getLatestEvent($lang = 'en') {
         $events = self::getAllEvents($lang);
         return $events[0] ?? null;
+    }
+
+    public static function addEvent($event) {
+        self::loadEvents();
+        $id = self::getNextId();
+        foreach (['en', 'mk', 'fr'] as $lang) {
+            $ev = $event[$lang] ?? [];
+            $ev['id'] = $id;
+            self::$events[$lang][] = $ev;
+        }
+        self::saveEvents();
+        return $id;
+    }
+
+    public static function editEvent($id, $event) {
+        self::loadEvents();
+        foreach (['en', 'mk', 'fr'] as $lang) {
+            foreach (self::$events[$lang] as &$ev) {
+                if ($ev['id'] == $id) {
+                    $ev = array_merge($ev, $event[$lang] ?? []);
+                    $ev['id'] = $id;
+                }
+            }
+        }
+        self::saveEvents();
+    }
+
+    public static function deleteEvent($id) {
+        self::loadEvents();
+        foreach (['en', 'mk', 'fr'] as $lang) {
+            self::$events[$lang] = array_values(array_filter(self::$events[$lang], function($ev) use ($id) {
+                return $ev['id'] != $id;
+            }));
+        }
+        self::saveEvents();
+    }
+
+    private static function getNextId() {
+        $max = 0;
+        foreach (['en', 'mk', 'fr'] as $lang) {
+            foreach (self::$events[$lang] as $ev) {
+                if (isset($ev['id']) && $ev['id'] > $max) $max = $ev['id'];
+            }
+        }
+        return $max + 1;
+    }
+
+    public static function addTransaction($eventId, $user) {
+        $transactions = [];
+        if (file_exists(self::$transactionsFile)) {
+            $transactions = json_decode(file_get_contents(self::$transactionsFile), true) ?: [];
+        }
+        $transactions[] = [
+            'event_id' => $eventId,
+            'user' => $user,
+            'timestamp' => date('c'),
+        ];
+        file_put_contents(self::$transactionsFile, json_encode($transactions, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    }
+
+    public static function getTransactions($eventId = null) {
+        if (!file_exists(self::$transactionsFile)) return [];
+        $transactions = json_decode(file_get_contents(self::$transactionsFile), true) ?: [];
+        if ($eventId === null) return $transactions;
+        return array_values(array_filter($transactions, function($t) use ($eventId) {
+            return $t['event_id'] == $eventId;
+        }));
+    }
+
+    public static function handleEventRequest($method, $input, $query = []) {
+        if ($method === 'GET') {
+            return [
+                'en' => self::getAllEvents('en'),
+                'mk' => self::getAllEvents('mk'),
+                'fr' => self::getAllEvents('fr'),
+            ];
+        }
+        if ($method === 'POST') {
+            // Add event: expects { en: {...}, mk: {...}, fr: {...} }
+            $id = self::addEvent($input);
+            return ['success' => true, 'id' => $id];
+        }
+        if ($method === 'PUT') {
+            // Edit event: expects { id: ..., en: {...}, mk: {...}, fr: {...} }
+            if (!isset($input['id'])) {
+                return ['success' => false, 'error' => 'Missing id'];
+            }
+            self::editEvent($input['id'], $input);
+            return ['success' => true];
+        }
+        if ($method === 'DELETE') {
+            // Delete event: expects { id: ... }
+            if (!isset($input['id'])) {
+                return ['success' => false, 'error' => 'Missing id'];
+            }
+            self::deleteEvent($input['id']);
+            return ['success' => true];
+        }
+        return ['success' => false, 'error' => 'Method not allowed'];
     }
 } 

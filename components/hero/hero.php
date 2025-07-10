@@ -14,9 +14,15 @@ $events = EventService::getAllEvents(I18nService::getCurrentLang());
         <div class="hero-event-card" id="hero-event-card">
             <div class="hero-event-split">
                 <div class="hero-event-info">
-                    <h1 class="hero-event-title" id="hero-event-title"><?= htmlspecialchars($events[0]['title']) ?></h1>
-                    <p class="hero-event-desc" id="hero-event-desc"><?= htmlspecialchars($events[0]['desc']) ?></p>
-                    <a href="<?= htmlspecialchars($events[0]['book_url']) ?>" class="hero-event-btn" id="hero-event-btn"><?= htmlspecialchars($events[0]['book_label']) ?></a>
+<?php if (!empty($events) && isset($events[0]['title'])): ?>
+                    <h1 class="hero-event-title" id="hero-event-title"><?= htmlspecialchars($events[0]['title'] ?? '') ?></h1>
+                    <p class="hero-event-desc" id="hero-event-desc"><?= htmlspecialchars($events[0]['desc'] ?? '') ?></p>
+                    <a href="<?= htmlspecialchars($events[0]['book_url'] ?? '#') ?>" class="hero-event-btn" id="hero-event-btn"><?= htmlspecialchars($events[0]['book_label'] ?? '') ?></a>
+<?php else: ?>
+                    <h1 class="hero-event-title" id="hero-event-title">No events available</h1>
+                    <p class="hero-event-desc" id="hero-event-desc">Please check back later or contact the site administrator to add events.</p>
+                    <a href="#" class="hero-event-btn" id="hero-event-btn" style="pointer-events:none;opacity:0.5;">No Event</a>
+<?php endif; ?>
                     <div class="hero-event-progress-container">
                         <div class="hero-event-progress-bar" id="hero-event-progress-bar"></div>
                     </div>
@@ -27,7 +33,11 @@ $events = EventService::getAllEvents(I18nService::getCurrentLang());
                     </div>
                 </div>
                 <div class="hero-event-image-side">
+<?php if (!empty($events) && isset($events[0]['image'])): ?>
                     <img id="hero-event-image" src="<?= htmlspecialchars($events[0]['image']) ?>" alt="<?= htmlspecialchars($events[0]['image_alt']) ?>" class="hero-event-image">
+<?php else: ?>
+                    <img id="hero-event-image" src="/assets/background-image.png" alt="No event image" class="hero-event-image">
+<?php endif; ?>
                 </div>
             </div>
         </div>
@@ -50,6 +60,7 @@ const progressBar = document.getElementById('hero-event-progress-bar');
 const dots = document.querySelectorAll('.hero-event-list-dot');
 
 function showEvent(idx) {
+    if (!events.length) return;
     const ev = events[idx];
     image.src = ev.image;
     image.alt = ev.image_alt;
@@ -76,6 +87,7 @@ dots.forEach(dot => {
 });
 
 function nextEvent() {
+    if (!events.length) return;
     currentIdx = (currentIdx + 1) % events.length;
     showEvent(currentIdx);
 }
@@ -86,5 +98,5 @@ function resetInterval() {
     interval = setInterval(nextEvent, duration);
 }
 
-showEvent(0);
+if (events.length) showEvent(0);
 </script> 

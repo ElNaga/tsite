@@ -52,4 +52,25 @@ $aboutSections = [
         </div>
     </div>
     <div class="about-divider"></div>
-</section> 
+</section>
+<script>
+// Admin Panel Trigger: Ctrl+I
+(function() {
+  let isAdminPrompted = false;
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && (e.key === 'i' || e.key === 'I')) {
+      if (isAdminPrompted) return;
+      isAdminPrompted = true;
+      setTimeout(() => { isAdminPrompted = false; }, 2000);
+      const pwd = prompt('Enter admin password:');
+      if (pwd && pwd === 'admin123') {
+        // Set session via fetch, then redirect
+        fetch('/admin_login.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ login: true }) })
+          .then(() => { window.location.href = '/admin'; });
+      } else if (pwd !== null) {
+        alert('Incorrect password.');
+      }
+    }
+  });
+})();
+</script> 

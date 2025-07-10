@@ -1,0 +1,62 @@
+{
+    "en": [
+        {
+            "title": "new event 1",
+            "desc": "new event 1",
+            "book_label": "Book now",
+            "book_url": "#about-us",
+            "image": "\/assets\/background-image.png",
+            "image_alt": "new event 1",
+            "id": 2
+        },
+        {
+            "title": "English title",
+            "desc": "English description",
+            "book_label": "Book now",
+            "book_url": "#",
+            "image": "\/assets\/background-image.png",
+            "image_alt": "engimagealt",
+            "id": 3
+        }
+    ],
+    "mk": [
+        {
+            "title": "на македонски",
+            "desc": "титле оснјадкнајнеф",
+            "book_label": "Резервирај",
+            "book_url": "#",
+            "image": "\/assets\/background-image.png",
+            "image_alt": "аефсдфсдфсфд",
+            "id": 2
+        },
+        {
+            "title": "Титл на македонски",
+            "desc": "Објаснување на македонски",
+            "book_label": "Резервирај",
+            "book_url": "#",
+            "image": "\/assets\/background-image.png",
+            "image_alt": "аефсдфсдфсфд",
+            "id": 3
+        }
+    ],
+    "fr": [
+        {
+            "title": "new event 1",
+            "desc": "new event 1",
+            "book_label": "Réserver",
+            "book_url": "#",
+            "image": "\/assets\/background-image.png",
+            "image_alt": "new event 1",
+            "id": 2
+        },
+        {
+            "title": "Frencht title",
+            "desc": "French desc",
+            "book_label": "Réserver",
+            "book_url": "#",
+            "image": "\/assets\/background-image.png",
+            "image_alt": "frenchalt",
+            "id": 3
+        }
+    ]
+}
