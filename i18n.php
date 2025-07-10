@@ -5,6 +5,8 @@ class I18nService {
     private static $languages = ['en' => 'English', 'fr' => 'Français', 'mk' => 'Македонски'];
     private static $translations = [
         'en' => [
+            'site_title' => 'Teatar za tebe - Interactive Theatre & Events for Kids',
+            'site_description' => 'Unforgettable children’s parties, interactive performances, drama studio, and creative workshops. Book your next event with Teatar za tebe!',
             'home' => 'Home',
             'about' => 'About',
             'offer' => 'Offer',
@@ -50,8 +52,12 @@ class I18nService {
             'footer_contact_title' => 'Contact',
             'footer_links_title' => 'Quick Links',
             'footer_rights' => 'All rights reserved.',
+            'not_found_title' => 'Page Not Found',
+            'not_found_message' => 'Sorry, the page you are looking for does not exist or has been moved. Try going back to the homepage.',
         ],
         'fr' => [
+            'site_title' => 'Théâtre pour toi - Théâtre interactif et événements pour enfants',
+            'site_description' => 'Fêtes d’enfants inoubliables, spectacles interactifs, studio de théâtre et ateliers créatifs. Réservez votre prochain événement avec Théâtre pour toi!',
             'home' => 'Accueil',
             'about' => 'À propos',
             'offer' => 'Offre',
@@ -97,8 +103,12 @@ class I18nService {
             'footer_contact_title' => 'Contact',
             'footer_links_title' => 'Liens rapides',
             'footer_rights' => 'Tous droits réservés.',
+            'not_found_title' => 'Page non trouvée',
+            'not_found_message' => 'Désolé, la page que vous recherchez n’existe pas ou a été déplacée. Essayez de revenir à la page d’accueil.',
         ],
         'mk' => [
+            'site_title' => 'Театар за тебе - Интерактивен театар и настани за деца',
+            'site_description' => 'Незаборавни детски родендени, интерактивни претстави, драмско студио и креативни работилници. Закажете го вашиот следен настан со Театар за тебе!',
             'home' => 'Дома',
             'about' => 'За нас',
             'offer' => 'Понуда',
@@ -144,6 +154,8 @@ class I18nService {
             'footer_contact_title' => 'Контакт',
             'footer_links_title' => 'Брзи линкови',
             'footer_rights' => 'Сите права се задржани.',
+            'not_found_title' => 'Страницата не е пронајдена',
+            'not_found_message' => 'Жалиме, страницата што ја барате не постои или е преместена. Обидете се да се вратите на почетната страница.',
         ],
     ];
 

@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../i18n.php';
 ?>
 <nav class="navbar">
     <div class="navbar-left">
-        <span class="logo" onclick="window.location.href='?page=home'" style="cursor:pointer;">LOGO</span>
+        <span class="logo" onclick="window.location.href='/home'" style="cursor:pointer;">LOGO</span>
     </div>
     <button class="navbar-toggle" aria-label="Toggle menu" onclick="document.querySelector('.navbar-menu').classList.toggle('show')">
         <span class="bar"></span>
@@ -12,17 +12,17 @@ require_once __DIR__ . '/../../i18n.php';
     </button>
     <div class="navbar-menu">
         <div class="navbar-right">
-            <a href="?page=home"><?= I18nService::t('home') ?></a>
-            <a href="?page=about"><?= I18nService::t('about') ?></a>
+            <a href="/home"><?= I18nService::t('home') ?></a>
+            <a href="/about"><?= I18nService::t('about') ?></a>
             <div class="dropdown">
                 <button class="dropbtn"><?= I18nService::t('offer') ?> &#9662;</button>
                 <div class="dropdown-content">
-                    <a href="?page=offer1"><?= I18nService::t('offer1') ?></a>
-                    <a href="?page=offer2"><?= I18nService::t('offer2') ?></a>
+                    <a href="/offer1"><?= I18nService::t('offer1') ?></a>
+                    <a href="/offer2"><?= I18nService::t('offer2') ?></a>
                 </div>
             </div>
-            <a href="?page=blog"><?= I18nService::t('blog') ?></a>
-            <a href="?page=contact"><?= I18nService::t('contact') ?></a>
+            <a href="/blog"><?= I18nService::t('blog') ?></a>
+            <a href="/contact"><?= I18nService::t('contact') ?></a>
             <form method="get" class="lang-switch">
                 <label for="lang-select" style="display: flex; align-items: center;">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

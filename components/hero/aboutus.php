@@ -48,7 +48,7 @@ $aboutSections = [
         </div>
         <div class="about-us-button">
             <div class="about-arrow">→</div>
-            <a href="?page=about" class="about-us-button"><?= I18nService::t('about') ?></a>
+            <a href="/about" class="about-us-button"><?= I18nService::t('about') ?></a>
         </div>
     </div>
     <div class="about-divider"></div>

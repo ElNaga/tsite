@@ -11,11 +11,11 @@
             </div>
         </div>
         <div class="footer-col footer-links-col">
-            <a href="?page=home"><?= I18nService::t('home') ?></a><br>
-            <a href="?page=about"><?= I18nService::t('about') ?></a><br>
-            <a href="?page=offer"><?= I18nService::t('offer') ?></a><br>
-            <a href="?page=blog"><?= I18nService::t('blog') ?></a><br>
-            <a href="?page=contact"><?= I18nService::t('contact') ?></a>
+            <a href="/home"><?= I18nService::t('home') ?></a><br>
+            <a href="/about"><?= I18nService::t('about') ?></a><br>
+            <a href="/offer"><?= I18nService::t('offer') ?></a><br>
+            <a href="/blog"><?= I18nService::t('blog') ?></a><br>
+            <a href="/contact"><?= I18nService::t('contact') ?></a>
         </div>
         <div class="footer-col footer-info-modern">
             <div class="footer-info-row"><span class="footer-icon-modern icon-shadow">📞</span> <span class="info-row-text">075 262 903</span></div>
