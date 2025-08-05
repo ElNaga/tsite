@@ -49,7 +49,9 @@ debug_to_console("Test message");
     $allowed = ['about', 'offer', 'offer1', 'offer2', 'blog', 'contact', 'home'];
     // Admin route protection
     if ($page === 'admin') {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         if (empty($_SESSION['is_admin'])) {
             header('Location: /home');
             exit;

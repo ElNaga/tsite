@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 // Only allow POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['is_admin'] = true;

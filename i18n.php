@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 class I18nService {
     private static $languages = ['en' => 'English', 'fr' => 'Français', 'mk' => 'Македонски'];
