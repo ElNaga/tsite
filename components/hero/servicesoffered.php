@@ -1,5 +1,5 @@
 <?php
-$lang = I18nService::getCurrentLang();
+$lang = TranslationService::getCurrentLang();
 $servicesOffered = [
     [
         'icon' => '🎭',
@@ -40,8 +40,8 @@ $servicesOffered = [
                 <img src="<?= htmlspecialchars($service['image']) ?>" alt="Service image" class="service-image" />
                 <div class="service-knob" title="Knob"></div>
                 <div class="service-icon"><?= $service['icon'] ?></div>
-                <div class="service-title"><?= htmlspecialchars(I18nService::t($service['title_key'])) ?></div>
-                <div class="service-desc"><?= htmlspecialchars(I18nService::t($service['desc_key'])) ?></div>
+                <div class="service-title"><?= htmlspecialchars(TranslationService::t($service['title_key'])) ?></div>
+                <div class="service-desc"><?= htmlspecialchars(TranslationService::t($service['desc_key'])) ?></div>
             </div>
         <?php endforeach; ?>
     </div>

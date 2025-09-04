@@ -1,8 +1,6 @@
 <?php
-require_once __DIR__ . '/../../i18n.php';
-require_once __DIR__ . '/../../src/services/EventService.php';
-
-$events = EventService::getAllEvents(I18nService::getCurrentLang());
+// Services are already loaded in index.php
+$events = EventService::getEvents();
 ?>
 <section class="hero-section">
     <video class="hero-bg-video" autoplay loop muted playsinline>
@@ -16,7 +14,7 @@ $events = EventService::getAllEvents(I18nService::getCurrentLang());
                 <div class="hero-event-info">
 <?php if (!empty($events) && isset($events[0]['title'])): ?>
                     <h1 class="hero-event-title" id="hero-event-title"><?= htmlspecialchars($events[0]['title'] ?? '') ?></h1>
-                    <p class="hero-event-desc" id="hero-event-desc"><?= htmlspecialchars($events[0]['desc'] ?? '') ?></p>
+                    <p class="hero-event-desc" id="hero-event-desc"><?= htmlspecialchars($events[0]['description'] ?? '') ?></p>
                     <a href="<?= htmlspecialchars($events[0]['book_url'] ?? '#') ?>" class="hero-event-btn" id="hero-event-btn"><?= htmlspecialchars($events[0]['book_label'] ?? '') ?></a>
 <?php else: ?>
                     <h1 class="hero-event-title" id="hero-event-title">No events available</h1>
@@ -65,7 +63,7 @@ function showEvent(idx) {
     image.src = ev.image;
     image.alt = ev.image_alt;
     title.textContent = ev.title;
-    desc.textContent = ev.desc;
+    desc.textContent = ev.description;
     btn.textContent = ev.book_label;
     btn.href = ev.book_url;
     dots.forEach(dot => dot.classList.remove('active'));

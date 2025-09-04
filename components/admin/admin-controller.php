@@ -1,23 +1,35 @@
 <?php
 require_once __DIR__ . '/../../src/services/EventService.php';
+require_once __DIR__ . '/../../src/services/TransactionService.php';
 
 class AdminController {
     
     public static function getData() {
-        // Get all events data
+        // Get all events data in all languages
+        $allEvents = EventService::getAllEvents();
+        
+        // Organize events by language for admin display
         $events = [
-            'en' => EventService::getAllEvents('en'),
-            'mk' => EventService::getAllEvents('mk'),
-            'fr' => EventService::getAllEvents('fr')
+            'en' => [],
+            'mk' => [],
+            'fr' => []
         ];
         
-        // Get transactions if needed
-        $transactions = EventService::getTransactions();
+        // Group events by language
+        foreach ($allEvents as $event) {
+            $lang = $event['language_code'];
+            if (isset($events[$lang])) {
+                $events[$lang][] = $event;
+            }
+        }
+        
+        // Get transactions
+        $transactions = TransactionService::getAllTransactions();
         
         return [
             'events' => $events,
             'transactions' => $transactions,
-            'totalEvents' => count($events['en']),
+            'totalEvents' => count($allEvents),
             'totalTransactions' => count($transactions)
         ];
     }

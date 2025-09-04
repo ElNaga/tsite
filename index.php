@@ -1,5 +1,13 @@
 <?php
+// Handle language switching first
 require_once __DIR__ . '/i18n.php';
+
+// Load database-backed services
+require_once __DIR__ . '/src/services/TranslationService.php';
+require_once __DIR__ . '/src/services/EventService.php';
+
+// Load translations for current language
+TranslationService::loadTranslations();
 
 function debug_to_console($data) {
     $output = $data;
@@ -13,22 +21,22 @@ debug_to_console("Test message");
 
 ?>
 <!DOCTYPE html>
-<html lang="<?= htmlspecialchars(I18nService::getCurrentLang()) ?>">
+<html lang="<?= htmlspecialchars(TranslationService::getCurrentLang()) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars(I18nService::t('site_title')) ?></title>
-    <meta name="description" content="<?= htmlspecialchars(I18nService::t('site_description')) ?>">
+    <title><?= htmlspecialchars(TranslationService::t('site_title')) ?></title>
+    <meta name="description" content="<?= htmlspecialchars(TranslationService::t('site_description')) ?>">
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="<?= htmlspecialchars(I18nService::t('site_title')) ?>">
-    <meta property="og:description" content="<?= htmlspecialchars(I18nService::t('site_description')) ?>">
+    <meta property="og:title" content="<?= htmlspecialchars(TranslationService::t('site_title')) ?>">
+    <meta property="og:description" content="<?= htmlspecialchars(TranslationService::t('site_description')) ?>">
     <meta property="og:image" content="/assets/background-image.png">
     <meta property="og:url" content="https://www.teatarzatebe.mk/">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?= htmlspecialchars(I18nService::t('site_title')) ?>">
-    <meta name="twitter:description" content="<?= htmlspecialchars(I18nService::t('site_description')) ?>">
+    <meta name="twitter:title" content="<?= htmlspecialchars(TranslationService::t('site_title')) ?>">
+    <meta name="twitter:description" content="<?= htmlspecialchars(TranslationService::t('site_description')) ?>">
     <meta name="twitter:image" content="/assets/background-image.png">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%8E%AD%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="style.css">
