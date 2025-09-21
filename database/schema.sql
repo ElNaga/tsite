@@ -141,6 +141,24 @@ INSERT INTO languages (code, name) VALUES
 INSERT INTO users (email, password_hash, name, role) VALUES 
 ('admin@teatarzatebe.mk', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Admin User', 'admin');
 
+-- People table for team members
+CREATE TABLE people (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    image_url VARCHAR(255) NULL,
+    language_code VARCHAR(2) NOT NULL,
+    display_order INT DEFAULT 0,
+    is_visible BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (language_code) REFERENCES languages(code),
+    INDEX idx_language (language_code),
+    INDEX idx_visible (is_visible),
+    INDEX idx_order (display_order)
+);
+
 -- Insert default translations from i18n.php
 INSERT INTO translations (language_code, translation_key, translation_value) VALUES
 -- English translations

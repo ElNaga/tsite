@@ -53,9 +53,27 @@ $adminData = AdminController::getData();
             <section id="section-people" class="admin-section">
                 <div class="admin-header">
                     <h1>People of TZT</h1>
-                    <button class="admin-btn">Add New Person</button>
+                    <button class="admin-btn" id="add-person-btn">Add New Person</button>
                 </div>
-                <p>Manage organization members here.</p>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                       <th>ID</th>
+                       <th>Name (EN)</th>
+                       <th>Name (MK)</th>
+                       <th>Name (FR)</th>
+                       <th>Title</th>
+                       <th>Visible</th>
+                       <th>Order</th>
+                       <th>Reorder</th>
+                       <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- People will be loaded dynamically via JavaScript -->
+                    </tbody>
+                </table>
             </section>
         </main>
     </div>
@@ -128,6 +146,70 @@ $adminData = AdminController::getData();
                         <label>Image Alt (FR):</label>
                         <input name="image_alt_fr">
                     </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="admin-btn">Save</button>
+                    <button type="button" class="admin-btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- People Modal -->
+    <div id="people-modal" class="event-modal">
+        <div class="modal-content">
+            <h2>Add/Edit Person</h2>
+            <form id="people-form" enctype="multipart/form-data">
+                <div class="form-grid">
+                    <!-- English Column -->
+                    <div class="form-column">
+                        <label>Name (EN):</label>
+                        <input name="name_en" required>
+                        
+                        <label>Title (EN):</label>
+                        <input name="title_en" required>
+                        
+                        <label>Description (EN):</label>
+                        <textarea name="description_en" required></textarea>
+                    </div>
+                    
+                    <!-- Macedonian Column -->
+                    <div class="form-column">
+                        <label>Name (MK):</label>
+                        <input name="name_mk" required>
+                        
+                        <label>Title (MK):</label>
+                        <input name="title_mk" required>
+                        
+                        <label>Description (MK):</label>
+                        <textarea name="description_mk" required></textarea>
+                    </div>
+                    
+                    <!-- French Column -->
+                    <div class="form-column">
+                        <label>Name (FR):</label>
+                        <input name="name_fr" required>
+                        
+                        <label>Title (FR):</label>
+                        <input name="title_fr" required>
+                        
+                        <label>Description (FR):</label>
+                        <textarea name="description_fr" required></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <label>
+                        <input type="checkbox" name="is_visible" checked> Visible on website
+                    </label>
+                    <small>Display order will be assigned automatically</small>
+                </div>
+                
+                <div class="form-row">
+                    <label>Profile Image:</label>
+                    <input type="file" name="profile_image" accept="image/*">
+                    <small>Leave empty to keep current image</small>
                 </div>
                 
                 <div class="form-actions">
