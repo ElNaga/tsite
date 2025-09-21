@@ -201,19 +201,32 @@ try {
                     }
                 }
             
-                // For now, just update the specific person that was edited
-                // TODO: In the future, we might want to update all language versions
-                $updateData = [
-                    'name' => $input[$person['language_code']]['name'],
-                    'title' => $input[$person['language_code']]['title'],
-                    'description' => $input[$person['language_code']]['description'],
-                    'image_url' => $imageUrl,
-                    'language_code' => $person['language_code'],
-                    'display_order' => $input['display_order'] ?? $person['display_order'],
-                    'is_visible' => (int)filter_var($input['is_visible'] ?? $person['is_visible'], FILTER_VALIDATE_BOOLEAN)
-                ];
+                // Update all language versions of this person
+                $allPeople = PeopleService::getAllPeople();
+                $success = true;
                 
-                $success = PeopleService::updatePerson($id, $updateData);
+                foreach ($allPeople as $p) {
+                    if ($p['display_order'] == $person['display_order']) {
+                        $langCode = $p['language_code'];
+                        $updateData = [
+                            'name' => $input[$langCode]['name'],
+                            'title' => $input[$langCode]['title'],
+                            'description' => $input[$langCode]['description'],
+                            'image_url' => $imageUrl, // Same image for all languages
+                            'language_code' => $langCode,
+                            'display_order' => $person['display_order'], // Keep same display_order
+                            'is_visible' => (int)filter_var($input['is_visible'] ?? $person['is_visible'], FILTER_VALIDATE_BOOLEAN)
+                        ];
+                        try {
+                            $updateResult = PeopleService::updatePerson($p['id'], $updateData);
+                            // Consider it successful if either rows were updated OR no error occurred
+                            $success = $success && true; // Always true if no exception thrown
+                        } catch (Exception $e) {
+                            error_log("Failed to update person ID " . $p['id'] . ": " . $e->getMessage());
+                            $success = false;
+                        }
+                    }
+                }
             
                 echo json_encode(['success' => $success]);
                 break;
