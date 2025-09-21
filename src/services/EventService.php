@@ -17,7 +17,7 @@ class EventService {
                 if ($result === true) {
                     // Create PDO connection manually
                     $config = [
-                        'host' => getenv('DB_HOST') ?: '127.0.0.1',
+                        'host' => getenv('DB_HOST') ?: 'localhost',
                         'port' => getenv('DB_PORT') ?: '3307',
                         'db'   => getenv('DB_NAME') ?: 'teatar_zatebe',
                         'user' => getenv('DB_USER') ?: 'tzt',
@@ -147,6 +147,7 @@ class EventService {
      * Create new event
      */
     public static function createEvent(array $eventData, array $translations): int {
+        $pdo = null;
         try {
             $pdo = self::getPdo();
             $pdo->beginTransaction();
@@ -184,7 +185,9 @@ class EventService {
             $pdo->commit();
             return $eventId;
         } catch (Exception $e) {
-            $pdo->rollback();
+            if ($pdo !== null) {
+                $pdo->rollback();
+            }
             error_log("Failed to create event: " . $e->getMessage());
             throw $e;
         }
@@ -194,6 +197,7 @@ class EventService {
      * Update event
      */
     public static function updateEvent(int $id, array $eventData, array $translations): bool {
+        $pdo = null;
         try {
             $pdo = self::getPdo();
             $pdo->beginTransaction();
@@ -232,7 +236,9 @@ class EventService {
             $pdo->commit();
             return true;
         } catch (Exception $e) {
-            $pdo->rollback();
+            if ($pdo !== null) {
+                $pdo->rollback();
+            }
             error_log("Failed to update event: " . $e->getMessage());
             return false;
         }

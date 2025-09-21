@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: tztpass
       TZ: Europe/Skopje
     ports:
-      - "3307:3306"        # host:container (3307 avoids conflict)
+      - "3306:3306"        # host:container (standard MySQL port)
     volumes:
       - db_data:/var/lib/mysql
       - ./init:/docker-entrypoint-initdb.d  # auto-runs .sql on first start
