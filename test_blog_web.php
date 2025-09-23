@@ -3,7 +3,7 @@
  * Web-based Blog Functionality Test
  * 
  * This file tests the blog functionality in a web environment.
- * Access via: http://localhost:8080/test_blog_web.php
+ * Access via: git http://localhost:8080/test_blog_web.php
  */
 
 echo "<h1>🧪 Blog Functionality Test</h1>";
