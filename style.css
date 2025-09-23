@@ -13,6 +13,10 @@
   }
 :root {
     --main-font: 'HK Grotesk', Arial, sans-serif;
+    --scrollbar-bg: #f1f1f1;
+    --scrollbar-thumb: #d7263d;
+    --scrollbar-thumb-hover: #b91e35;
+    --scrollbar-track: rgba(215, 38, 61, 0.1);
 }
 
 body {
@@ -142,4 +146,76 @@ body {
       padding: 0 0.5rem;
       letter-spacing: 1px;
     }
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 10px;
+    margin: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--scrollbar-thumb), var(--scrollbar-thumb-hover));
+    border-radius: 10px;
+    border: 2px solid var(--scrollbar-track);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--scrollbar-thumb-hover), #9a1a2e);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(180deg, #9a1a2e, #7d1425);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--scrollbar-track);
+}
+
+/* Firefox Scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Smooth scrolling for better UX */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for specific elements */
+.modal-content,
+.blog-modal-content,
+.admin-modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.modal-content::-webkit-scrollbar,
+.blog-modal-content::-webkit-scrollbar,
+.admin-modal-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track,
+.blog-modal-content::-webkit-scrollbar-track,
+.admin-modal-content::-webkit-scrollbar-track {
+    background: rgba(215, 38, 61, 0.05);
+    border-radius: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb,
+.blog-modal-content::-webkit-scrollbar-thumb,
+.admin-modal-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--scrollbar-thumb), var(--scrollbar-thumb-hover));
+    border-radius: 8px;
+    border: 1px solid rgba(215, 38, 61, 0.1);
 } 

@@ -1,4 +1,6 @@
 // Blog Admin JavaScript functionality
+let blogAdminInitialized = false;
+
 document.addEventListener('DOMContentLoaded', function () {
     const blogModal = document.getElementById('blog-modal');
     const blogForm = document.getElementById('blog-form');
@@ -14,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
     initBlogAdmin();
 
     function initBlogAdmin() {
+        if (blogAdminInitialized) return;
+
         loadBlogPosts();
 
         // Event listeners
@@ -25,10 +29,162 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Image preview functionality
         setupImagePreviews();
+
+        // File upload functionality
+        setupFileUploads();
+
+        blogAdminInitialized = true;
+    }
+
+    // Function to initialize blog admin when section becomes active
+    window.initBlogSection = function () {
+        initBlogAdmin();
+    };
+
+    function setupFileUploads() {
+        // Main image upload
+        const mainImageUpload = document.getElementById('blog-main-image-upload');
+        if (mainImageUpload) {
+            mainImageUpload.addEventListener('change', function (e) {
+                handleImageUpload(e, 'blog-main-image');
+            });
+        }
+
+        // Secondary image upload
+        const secondaryImageUpload = document.getElementById('blog-secondary-image-upload');
+        if (secondaryImageUpload) {
+            secondaryImageUpload.addEventListener('change', function (e) {
+                handleImageUpload(e, 'blog-secondary-image');
+            });
+        }
+
+        // Gallery images upload
+        const galleryUpload = document.getElementById('blog-gallery-upload');
+        if (galleryUpload) {
+            galleryUpload.addEventListener('change', function (e) {
+                handleGalleryUpload(e);
+            });
+        }
+    }
+
+    function handleImageUpload(event, targetInputId) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const targetInput = document.getElementById(targetInputId);
+        const previewContainer = document.getElementById(targetInputId.replace('blog-', '').replace('-image', '-image-preview'));
+
+        // Show loading status
+        showUploadStatus(previewContainer, 'Uploading...', 'loading');
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        fetch('/api/upload/blog', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    targetInput.value = data.url;
+                    showUploadStatus(previewContainer, 'Upload successful!', 'success');
+                    updateImagePreview(targetInputId);
+
+                    // Clear the file input
+                    event.target.value = '';
+                } else {
+                    showUploadStatus(previewContainer, 'Upload failed: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
+                showUploadStatus(previewContainer, 'Upload failed: ' + error.message, 'error');
+            });
+    }
+
+    function handleGalleryUpload(event) {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) return;
+
+        const galleryTextarea = document.getElementById('blog-gallery-images');
+        const previewContainer = document.getElementById('gallery-images-preview');
+
+        // Show loading status
+        showUploadStatus(previewContainer, `Uploading ${files.length} images...`, 'loading');
+
+        let uploadPromises = files.map(file => {
+            const formData = new FormData();
+            formData.append('image', file);
+
+            return fetch('/api/upload/blog', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json());
+        });
+
+        Promise.all(uploadPromises)
+            .then(results => {
+                const successfulUploads = results.filter(result => result.success);
+                const failedUploads = results.filter(result => !result.success);
+
+                if (successfulUploads.length > 0) {
+                    // Get current URLs
+                    const currentUrls = galleryTextarea.value.split('\n').filter(url => url.trim());
+
+                    // Add new URLs
+                    const newUrls = successfulUploads.map(result => result.url);
+                    const allUrls = [...currentUrls, ...newUrls];
+
+                    galleryTextarea.value = allUrls.join('\n');
+
+                    let statusMessage = `Successfully uploaded ${successfulUploads.length} images!`;
+                    if (failedUploads.length > 0) {
+                        statusMessage += ` ${failedUploads.length} uploads failed.`;
+                    }
+
+                    showUploadStatus(previewContainer, statusMessage, 'success');
+                    updateImagePreview('blog-gallery-images');
+                } else {
+                    showUploadStatus(previewContainer, 'All uploads failed', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Gallery upload error:', error);
+                showUploadStatus(previewContainer, 'Upload failed: ' + error.message, 'error');
+            })
+            .finally(() => {
+                // Clear the file input
+                event.target.value = '';
+            });
+    }
+
+    function showUploadStatus(container, message, type) {
+        // Remove existing status
+        const existingStatus = container.querySelector('.upload-status');
+        if (existingStatus) {
+            existingStatus.remove();
+        }
+
+        // Add new status
+        const statusDiv = document.createElement('div');
+        statusDiv.className = `upload-status ${type}`;
+        statusDiv.textContent = message;
+        container.appendChild(statusDiv);
+
+        // Auto-remove success/error messages after 3 seconds
+        if (type !== 'loading') {
+            setTimeout(() => {
+                if (statusDiv.parentNode) {
+                    statusDiv.remove();
+                }
+            }, 3000);
+        }
     }
 
     function loadBlogPosts() {
-        fetch('/api/blog')
+        fetch('/api/blog?admin=true')
             .then(response => {
                 console.log('Admin API response status:', response.status);
                 console.log('Admin API response headers:', response.headers);
@@ -90,11 +246,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 </td>
                 <td>${formatDate(post.created_at)}</td>
                 <td>
-                    <button class="btn-edit" onclick="editBlogPost(${post.id})">Edit</button>
-                    <button class="btn-delete" onclick="deleteBlogPost(${post.id})">Delete</button>
+                    <button class="btn-edit" data-post-id="${post.id}">Edit</button>
+                    <button class="btn-delete" data-post-id="${post.id}">Delete</button>
                 </td>
             `;
             tbody.appendChild(row);
+        });
+
+        // Add event listeners for edit and delete buttons
+        tbody.querySelectorAll('.btn-edit').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const postId = this.getAttribute('data-post-id');
+                openBlogModal(postId);
+            });
+        });
+
+        tbody.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const postId = this.getAttribute('data-post-id');
+                deleteBlogPost(postId);
+            });
         });
     }
 
@@ -142,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function loadBlogPost(postId) {
-        fetch(`/api/blog/${postId}`)
+        fetch(`/api/blog/${postId}?admin=true`)
             .then(response => response.json())
             .then(post => {
                 document.getElementById('blog-id').value = post.id;
@@ -153,7 +324,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('blog-secondary-title').value = post.secondary_title;
                 document.getElementById('blog-secondary-text').value = post.secondary_text;
                 document.getElementById('blog-secondary-image').value = post.secondary_image;
-                document.getElementById('blog-gallery-images').value = post.gallery_images.join('\n');
+                // Handle gallery_images - it might be a string or array
+                let galleryImages = post.gallery_images;
+                if (typeof galleryImages === 'string') {
+                    try {
+                        galleryImages = JSON.parse(galleryImages);
+                    } catch (e) {
+                        galleryImages = galleryImages ? [galleryImages] : [];
+                    }
+                }
+                if (!Array.isArray(galleryImages)) {
+                    galleryImages = [];
+                }
+                document.getElementById('blog-gallery-images').value = galleryImages.join('\n');
                 document.getElementById('blog-visible').checked = post.visible;
 
                 updateImagePreviews();
@@ -339,7 +522,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.deleteBlogPost = function (postId) {
         if (confirm('Are you sure you want to delete this blog post?')) {
-            fetch(`/api/blog/${postId}`, {
+            fetch(`/api/blog/${postId}?admin=true`, {
                 method: 'DELETE'
             })
                 .then(response => response.json())
@@ -359,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     window.toggleBlogVisibility = function (postId, isVisible) {
-        fetch(`/api/blog/${postId}`, {
+        fetch(`/api/blog/${postId}?admin=true`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

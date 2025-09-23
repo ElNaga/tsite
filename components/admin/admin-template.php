@@ -295,9 +295,15 @@ $adminData = AdminController::getData();
                 </div>
                 
                 <div class="form-group">
-                    <label for="blog-main-image">Main Image URL:</label>
-                    <input type="url" id="blog-main-image" name="main_image" required>
-                    <div class="image-preview" id="main-image-preview"></div>
+                    <label for="blog-main-image">Main Image:</label>
+                    <div class="image-upload-container">
+                        <input type="file" id="blog-main-image-upload" accept="image/*" style="display: none;">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('blog-main-image-upload').click()">
+                            📁 Upload Image
+                        </button>
+                        <input type="url" id="blog-main-image" name="main_image" placeholder="Or enter image URL" required>
+                        <div class="image-preview" id="main-image-preview"></div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -311,15 +317,27 @@ $adminData = AdminController::getData();
                 </div>
                 
                 <div class="form-group">
-                    <label for="blog-secondary-image">Secondary Image URL:</label>
-                    <input type="url" id="blog-secondary-image" name="secondary_image" required>
-                    <div class="image-preview" id="secondary-image-preview"></div>
+                    <label for="blog-secondary-image">Secondary Image:</label>
+                    <div class="image-upload-container">
+                        <input type="file" id="blog-secondary-image-upload" accept="image/*" style="display: none;">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('blog-secondary-image-upload').click()">
+                            📁 Upload Image
+                        </button>
+                        <input type="url" id="blog-secondary-image" name="secondary_image" placeholder="Or enter image URL" required>
+                        <div class="image-preview" id="secondary-image-preview"></div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="blog-gallery-images">Gallery Images (one URL per line):</label>
-                    <textarea id="blog-gallery-images" name="gallery_images" rows="4" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"></textarea>
-                    <div class="image-preview" id="gallery-images-preview"></div>
+                    <label for="blog-gallery-images">Gallery Images:</label>
+                    <div class="gallery-upload-container">
+                        <input type="file" id="blog-gallery-upload" accept="image/*" multiple style="display: none;">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('blog-gallery-upload').click()">
+                            📁 Upload Multiple Images
+                        </button>
+                        <textarea id="blog-gallery-images" name="gallery_images" rows="4" placeholder="Or enter image URLs (one per line):&#10;https://example.com/image1.jpg&#10;https://example.com/image2.jpg"></textarea>
+                        <div class="image-preview" id="gallery-images-preview"></div>
+                    </div>
                 </div>
                 
                 <div class="form-actions">

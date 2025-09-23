@@ -1,7 +1,8 @@
 <?php
-// Handle API requests FIRST, before any output
+// Handle API requests and admin routes FIRST, before any output
 $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
+// Handle API requests
 if (strpos($path, 'api/') === 0) {
     $apiPath = substr($path, 4); // Remove 'api/' prefix
     $pathParts = explode('/', $apiPath);
@@ -18,6 +19,19 @@ if (strpos($path, 'api/') === 0) {
         echo json_encode(['error' => 'API endpoint not found']);
         exit;
     }
+}
+
+// Handle admin routes
+if ($path === 'admin' || $path === 'admin/blog') {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (empty($_SESSION['is_admin'])) {
+        header('Location: /home');
+        exit;
+    }
+    include __DIR__ . '/components/admin/admin.php';
+    exit;
 }
 
 // Handle language switching first
@@ -77,26 +91,8 @@ debug_to_console("Test message");
     debug_to_console($page, "Parsed page from path");
     
     $allowed = ['about', 'offer', 'offer1', 'offer2', 'blog', 'contact', 'home'];
-    // Admin route protection
-    if ($page === 'admin') {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (empty($_SESSION['is_admin'])) {
-            header('Location: /home');
-            exit;
-        }
-        include __DIR__ . '/components/admin/admin.php';
-    } elseif ($page === 'admin/blog') {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (empty($_SESSION['is_admin'])) {
-            header('Location: /home');
-            exit;
-        }
-        include __DIR__ . '/components/admin/admin.php';
-    } elseif ($page === 'home') {
+    
+    if ($page === 'home') {
         include __DIR__ . '/components/hero/hero.php';
     } elseif (in_array($page, $allowed)) {
         include __DIR__ . "/components/navbar/" . ucfirst($page) . ".php";

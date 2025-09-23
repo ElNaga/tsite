@@ -2,6 +2,37 @@
 .blog-section {
     padding: 2rem 1rem;
     min-height: 60vh;
+    background: rgba(215, 38, 61, 0.03);
+}
+
+/* Blog Modal Custom Scrollbar */
+.blog-modal,
+.blog-modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: #d7263d rgba(215, 38, 61, 0.1);
+}
+
+.blog-modal::-webkit-scrollbar,
+.blog-modal-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.blog-modal::-webkit-scrollbar-track,
+.blog-modal-content::-webkit-scrollbar-track {
+    background: rgba(215, 38, 61, 0.05);
+    border-radius: 8px;
+}
+
+.blog-modal::-webkit-scrollbar-thumb,
+.blog-modal-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #d7263d, #b91e35);
+    border-radius: 8px;
+    border: 1px solid rgba(215, 38, 61, 0.1);
+}
+
+.blog-modal::-webkit-scrollbar-thumb:hover,
+.blog-modal-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #b91e35, #9a1a2e);
 }
 
 .blog-empty {
@@ -27,15 +58,19 @@
     padding: 2rem;
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: none;
+    transition: all 0.3s ease;
     cursor: pointer;
-    border: 1px solid #e0e0e0;
+    border: none;
+    width: 75%;
+    margin: 0 auto;
+    position: relative;
 }
 
 .blog-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(215, 38, 61, 0.15);
+    border-radius: 12px;
 }
 
 /* Alternating Layout */
@@ -407,10 +442,15 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .blog-grid {
+        gap: 2.5rem;
+    }
+    
     .blog-card {
         flex-direction: column !important;
         text-align: center;
         padding: 1.5rem;
+        width: 85%;
     }
     
     .blog-card-image {
@@ -465,9 +505,14 @@
         padding: 1rem 0;
     }
     
+    .blog-grid {
+        gap: 2rem;
+    }
+    
     .blog-card {
         padding: 1rem;
         gap: 1rem;
+        width: 90%;
     }
     
     .blog-card-image {

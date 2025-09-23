@@ -1,4 +1,8 @@
 <?php
+// Blog Image Upload Handler
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -10,67 +14,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// Check admin access
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-if (empty($_SESSION['is_admin'])) {
-    http_response_code(403);
-    echo json_encode(['error' => 'Admin access required']);
+// Only allow POST requests
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['error' => 'Method not allowed']);
     exit;
 }
 
-// Check if file was uploaded
-if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
-    http_response_code(400);
-    echo json_encode(['error' => 'No file uploaded or upload error']);
-    exit;
-}
+try {
+    // Check if file was uploaded
+    if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+        throw new Exception('No file uploaded or upload error');
+    }
 
-$file = $_FILES['image'];
+    $file = $_FILES['image'];
+    
+    // Validate file type
+    $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    $fileType = mime_content_type($file['tmp_name']);
+    
+    if (!in_array($fileType, $allowedTypes)) {
+        throw new Exception('Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed.');
+    }
 
-// Validate file type
-$allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-if (!in_array($file['type'], $allowedTypes)) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed.']);
-    exit;
-}
+    // Validate file size (max 5MB)
+    $maxSize = 5 * 1024 * 1024; // 5MB
+    if ($file['size'] > $maxSize) {
+        throw new Exception('File too large. Maximum size is 5MB.');
+    }
 
-// Validate file size (max 5MB)
-$maxSize = 5 * 1024 * 1024; // 5MB
-if ($file['size'] > $maxSize) {
-    http_response_code(400);
-    echo json_encode(['error' => 'File too large. Maximum size is 5MB.']);
-    exit;
-}
+    // Create upload directory if it doesn't exist
+    $uploadDir = __DIR__ . '/../../uploads/blog/';
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
+    }
 
-// Create upload directory if it doesn't exist
-$uploadDir = __DIR__ . '/../../uploads/blog/';
-if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0755, true);
-}
+    // Generate unique filename
+    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $filename = 'blog_' . uniqid() . '_' . time() . '.' . $extension;
+    $filepath = $uploadDir . $filename;
 
-// Generate unique filename
-$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-$filename = 'blog_' . time() . '_' . uniqid() . '.' . $extension;
-$filepath = $uploadDir . $filename;
+    // Move uploaded file
+    if (!move_uploaded_file($file['tmp_name'], $filepath)) {
+        throw new Exception('Failed to move uploaded file');
+    }
 
-// Move uploaded file
-if (move_uploaded_file($file['tmp_name'], $filepath)) {
-    // Return the relative URL
-    $relativeUrl = '/uploads/blog/' . $filename;
+    // Return success with file URL
+    $fileUrl = '/uploads/blog/' . $filename;
     
     echo json_encode([
         'success' => true,
-        'url' => $relativeUrl,
+        'url' => $fileUrl,
         'filename' => $filename,
-        'size' => $file['size'],
-        'type' => $file['type']
+        'message' => 'Image uploaded successfully'
     ]);
-} else {
-    http_response_code(500);
-    echo json_encode(['error' => 'Failed to save uploaded file']);
+
+} catch (Exception $e) {
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'error' => $e->getMessage()
+    ]);
 }
 ?>

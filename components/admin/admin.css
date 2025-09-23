@@ -5,6 +5,41 @@ body {
     background: #f4f6fa; 
 }
 
+/* Admin Panel Custom Scrollbar */
+.admin-layout,
+.admin-content,
+.admin-sidebar {
+    scrollbar-width: thin;
+    scrollbar-color: #d7263d rgba(215, 38, 61, 0.1);
+}
+
+.admin-layout::-webkit-scrollbar,
+.admin-content::-webkit-scrollbar,
+.admin-sidebar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.admin-layout::-webkit-scrollbar-track,
+.admin-content::-webkit-scrollbar-track,
+.admin-sidebar::-webkit-scrollbar-track {
+    background: rgba(215, 38, 61, 0.05);
+    border-radius: 8px;
+}
+
+.admin-layout::-webkit-scrollbar-thumb,
+.admin-content::-webkit-scrollbar-thumb,
+.admin-sidebar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #d7263d, #b91e35);
+    border-radius: 8px;
+    border: 1px solid rgba(215, 38, 61, 0.1);
+}
+
+.admin-layout::-webkit-scrollbar-thumb:hover,
+.admin-content::-webkit-scrollbar-thumb:hover,
+.admin-sidebar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #b91e35, #9a1a2e);
+}
+
 .admin-layout { 
     display: flex; 
     height: 100vh; 
@@ -113,7 +148,8 @@ body {
 }
 
 /* Modal Styles */
-.event-modal {
+.event-modal,
+.blog-modal {
     display: none;
     position: fixed;
     top: 0;
@@ -121,12 +157,13 @@ body {
     width: 100vw;
     height: 100vh;
     background: rgba(30,44,116,0.18);
-    z-index: 1000;
+    z-index: 9999;
     align-items: center;
     justify-content: center;
 }
 
-.event-modal.active {
+.event-modal.active,
+.blog-modal.active {
     display: flex;
 }
 
@@ -135,13 +172,248 @@ body {
     padding: 2rem 2.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 32px rgba(30,44,116,0.18);
-    min-width: 340px;
+    min-width: 600px;
     max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 10000;
 }
 
 .modal-content h2 {
     margin-top: 0;
     color: #1E2C74;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0.5rem;
+}
+
+/* Blog Form Specific Styles */
+#blog-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#blog-form .form-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+#blog-form .form-row label {
+    font-weight: 600;
+    color: #1E2C74;
+    min-width: 120px;
+    margin-bottom: 0;
+}
+
+#blog-form .form-row input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-right: 0.5rem;
+}
+
+#blog-form label {
+    display: block;
+    font-weight: 600;
+    color: #1E2C74;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+#blog-form input[type="text"],
+#blog-form input[type="url"],
+#blog-form select,
+#blog-form textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    background: #fafbfc;
+}
+
+#blog-form input[type="text"]:focus,
+#blog-form input[type="url"]:focus,
+#blog-form select:focus,
+#blog-form textarea:focus {
+    outline: none;
+    border-color: #1E2C74;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(30, 44, 116, 0.1);
+}
+
+#blog-form textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+#blog-form textarea[name="main_text"] {
+    min-height: 150px;
+}
+
+#blog-form textarea[name="secondary_text"] {
+    min-height: 100px;
+}
+
+#blog-form textarea[name="gallery_images"] {
+    min-height: 80px;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+#blog-form .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #f0f0f0;
+}
+
+#blog-form .form-actions button {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 100px;
+}
+
+#blog-form .form-actions button[type="submit"] {
+    background: #1E2C74;
+    color: white;
+}
+
+#blog-form .form-actions button[type="submit"]:hover {
+    background: #15204a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30, 44, 116, 0.3);
+}
+
+#blog-form .form-actions button[type="button"] {
+    background: #6c757d;
+    color: white;
+}
+
+#blog-form .form-actions button[type="button"]:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+/* Image Upload Styles */
+.image-upload-container,
+.gallery-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.upload-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.upload-btn:hover {
+    background: #218838;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.upload-btn:active {
+    transform: translateY(0);
+}
+
+.image-preview {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.image-preview img {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 6px;
+    border: 2px solid #e1e5e9;
+    object-fit: cover;
+    transition: all 0.2s ease;
+}
+
+.image-preview img:hover {
+    border-color: #1E2C74;
+    transform: scale(1.05);
+}
+
+.image-preview .remove-image {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.image-preview .remove-image:hover {
+    background: #c82333;
+    transform: scale(1.1);
+}
+
+.image-preview .image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.upload-status {
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.upload-status.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.upload-status.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.upload-status.loading {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
 }
 
 .form-grid {

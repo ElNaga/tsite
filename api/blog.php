@@ -95,8 +95,23 @@ function handleGetBlogPosts() {
     $page = (int)($_GET['page'] ?? 1);
     $limit = (int)($_GET['limit'] ?? 20);
     
-    $posts = BlogService::getBlogPosts($language, $page, $limit);
-    $paginationInfo = BlogService::getPaginationInfo($language, $page, $limit);
+    // Check if this is an admin request (from admin panel)
+    $isAdminRequest = isset($_GET['admin']) && $_GET['admin'] === 'true';
+    
+    if ($isAdminRequest) {
+        // Admin panel: show all posts (visible and hidden)
+        $posts = BlogService::getAllBlogPosts();
+        $paginationInfo = [
+            'current_page' => 1,
+            'total_pages' => 1,
+            'total_posts' => count($posts),
+            'posts_per_page' => count($posts)
+        ];
+    } else {
+        // Public access: show only visible posts
+        $posts = BlogService::getBlogPosts($language, $page, $limit);
+        $paginationInfo = BlogService::getPaginationInfo($language, $page, $limit);
+    }
     
     echo json_encode([
         'posts' => array_map(function($post) {
@@ -110,6 +125,16 @@ function handleGetBlogPost($id) {
     $post = BlogService::getBlogPostById($id);
     
     if (!$post) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Blog post not found']);
+        return;
+    }
+    
+    // Check if this is an admin request
+    $isAdminRequest = isset($_GET['admin']) && $_GET['admin'] === 'true';
+    
+    // For public access, only show visible posts
+    if (!$isAdminRequest && !$post->isVisible()) {
         http_response_code(404);
         echo json_encode(['error' => 'Blog post not found']);
         return;
@@ -159,18 +184,30 @@ function handleUpdateBlogPost($id) {
         return;
     }
     
-    $success = BlogService::updateBlogPost($id, $input);
-    
-    if (!$success) {
-        http_response_code(404);
-        echo json_encode(['error' => 'Blog post not found or update failed']);
-        return;
+    try {
+        // Handle visibility toggle specifically
+        if (isset($input['visible']) && count($input) === 1) {
+            $success = BlogService::toggleVisibility($id);
+        } else {
+            // Handle full blog post update
+            $success = BlogService::updateBlogPost($id, $input);
+        }
+        
+        if (!$success) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Blog post not found or update failed']);
+            return;
+        }
+        
+        echo json_encode([
+            'success' => true,
+            'message' => 'Blog post updated successfully'
+        ]);
+    } catch (Exception $e) {
+        error_log("Blog update error: " . $e->getMessage());
+        http_response_code(500);
+        echo json_encode(['error' => 'Internal server error: ' . $e->getMessage()]);
     }
-    
-    echo json_encode([
-        'success' => true,
-        'message' => 'Blog post updated successfully'
-    ]);
 }
 
 function handleDeleteBlogPost($id) {

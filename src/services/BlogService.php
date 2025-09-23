@@ -185,10 +185,15 @@ class BlogService {
             return false;
         }
         
-        $newVisibility = !$post->isVisible();
+        $currentVisibility = $post->isVisible();
+        $newVisibility = !$currentVisibility;
+        
+        // Ensure we're working with proper boolean values
+        $newVisibility = (bool) $newVisibility;
+        
         $sql = "UPDATE blog_posts SET visible = ? WHERE id = ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$newVisibility, $id]);
+        $stmt->execute([$newVisibility ? 1 : 0, $id]);
         
         return $stmt->rowCount() > 0;
     }

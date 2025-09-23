@@ -4,7 +4,8 @@
 const menuLinks = document.querySelectorAll('.admin-menu a');
 const sections = {
     events: document.getElementById('section-events'),
-    people: document.getElementById('section-people')
+    people: document.getElementById('section-people'),
+    blog: document.getElementById('section-blog')
 };
 
 menuLinks.forEach(link => {
@@ -19,6 +20,12 @@ menuLinks.forEach(link => {
         } else if (this.getAttribute('href') === '#people') {
             sections.people.classList.add('active');
             loadPeople(); // Load people when switching to people section
+        } else if (this.getAttribute('href') === '#blog') {
+            sections.blog.classList.add('active');
+            // Initialize blog section if not already initialized
+            if (typeof window.initBlogSection === 'function') {
+                window.initBlogSection();
+            }
         }
     });
 });
