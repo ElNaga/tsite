@@ -76,3 +76,4 @@ class BlogPostModel implements BlogPostInterface {
 
 
 
+
