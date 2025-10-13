@@ -69,35 +69,21 @@ CREATE TABLE event_translations (
 -- Blog posts table
 CREATE TABLE blog_posts (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    slug VARCHAR(255) NOT NULL UNIQUE,
-    author_id INT NOT NULL,
-    status ENUM('draft', 'published', 'archived') DEFAULT 'draft',
-    featured_image VARCHAR(255) NULL,
+    language VARCHAR(2) NOT NULL,
+    main_title VARCHAR(255) NOT NULL,
+    main_text TEXT NOT NULL,
+    main_image VARCHAR(255) NOT NULL,
+    secondary_title VARCHAR(255) NOT NULL,
+    secondary_text TEXT NOT NULL,
+    secondary_image VARCHAR(255) NOT NULL,
+    gallery_images TEXT NULL,
+    visible BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    published_at TIMESTAMP NULL,
-    FOREIGN KEY (author_id) REFERENCES users(id),
-    INDEX idx_slug (slug),
-    INDEX idx_status (status),
-    INDEX idx_published_at (published_at)
-);
-
--- Blog post translations table
-CREATE TABLE blog_post_translations (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    blog_post_id INT NOT NULL,
-    language_code VARCHAR(2) NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    content TEXT NOT NULL,
-    excerpt TEXT NULL,
-    meta_title VARCHAR(255) NULL,
-    meta_description TEXT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (blog_post_id) REFERENCES blog_posts(id) ON DELETE CASCADE,
-    FOREIGN KEY (language_code) REFERENCES languages(code),
-    UNIQUE KEY unique_post_lang (blog_post_id, language_code),
-    INDEX idx_language (language_code)
+    FOREIGN KEY (language) REFERENCES languages(code),
+    INDEX idx_language (language),
+    INDEX idx_visible (visible),
+    INDEX idx_created_at (created_at)
 );
 
 -- Transactions table (booking transactions)

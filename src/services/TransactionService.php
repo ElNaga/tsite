@@ -59,11 +59,10 @@ class TransactionService {
                 SELECT 
                     t.id,
                     t.event_id,
-                    t.user_name,
-                    t.user_email,
-                    t.user_phone,
-                    t.booking_date,
+                    t.user_data,
                     t.status,
+                    t.amount,
+                    t.payment_method,
                     t.created_at,
                     e.image as event_image,
                     et.title as event_title,
@@ -106,17 +105,24 @@ class TransactionService {
     public static function createTransaction(array $transactionData): int {
         try {
             $pdo = self::getPdo();
+            // Prepare user data as JSON
+            $userData = [
+                'name' => $transactionData['user_name'] ?? '',
+                'email' => $transactionData['user_email'] ?? '',
+                'phone' => $transactionData['user_phone'] ?? '',
+                'booking_date' => $transactionData['booking_date'] ?? date('Y-m-d H:i:s')
+            ];
+            
             $stmt = $pdo->prepare("
-                INSERT INTO transactions (event_id, user_name, user_email, user_phone, booking_date, status) 
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO transactions (event_id, user_data, status, amount, payment_method) 
+                VALUES (?, ?, ?, ?, ?)
             ");
             $stmt->execute([
                 $transactionData['event_id'],
-                $transactionData['user_name'],
-                $transactionData['user_email'],
-                $transactionData['user_phone'],
-                $transactionData['booking_date'],
-                $transactionData['status'] ?? 'pending'
+                json_encode($userData),
+                $transactionData['status'] ?? 'pending',
+                $transactionData['amount'] ?? null,
+                $transactionData['payment_method'] ?? null
             ]);
             
             return (int) $pdo->lastInsertId();

@@ -1,4 +1,39 @@
 <?php
+// Handle API requests and admin routes FIRST, before any output
+$path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+
+// Handle API requests
+if (strpos($path, 'api/') === 0) {
+    $apiPath = substr($path, 4); // Remove 'api/' prefix
+    $pathParts = explode('/', $apiPath);
+    $apiFile = __DIR__ . '/api/' . $pathParts[0] . '.php';
+    
+    if (file_exists($apiFile)) {
+        // Set up the path parts for the API file to use
+        $_GET['path_parts'] = $pathParts;
+        include $apiFile;
+        exit;
+    } else {
+        http_response_code(404);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'API endpoint not found']);
+        exit;
+    }
+}
+
+// Handle admin routes
+if ($path === 'admin' || $path === 'admin/blog') {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (empty($_SESSION['is_admin'])) {
+        header('Location: /home');
+        exit;
+    }
+    include __DIR__ . '/components/admin/admin.php';
+    exit;
+}
+
 // Handle language switching first
 require_once __DIR__ . '/i18n.php';
 
@@ -52,21 +87,12 @@ debug_to_console("Test message");
     <?php include __DIR__ . '/components/navbar/navbar.php'; ?>
     <?php
     // Pretty URL routing: get path from REQUEST_URI
-    $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
     $page = $path ?: 'home';
     debug_to_console($page, "Parsed page from path");
+    
     $allowed = ['about', 'offer', 'offer1', 'offer2', 'blog', 'contact', 'home'];
-    // Admin route protection
-    if ($page === 'admin') {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (empty($_SESSION['is_admin'])) {
-            header('Location: /home');
-            exit;
-        }
-        include __DIR__ . '/components/admin/admin.php';
-    } elseif ($page === 'home') {
+    
+    if ($page === 'home') {
         include __DIR__ . '/components/hero/hero.php';
     } elseif (in_array($page, $allowed)) {
         include __DIR__ . "/components/navbar/" . ucfirst($page) . ".php";

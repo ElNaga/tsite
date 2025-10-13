@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../src/services/EventService.php';
 require_once __DIR__ . '/../../src/services/TransactionService.php';
 require_once __DIR__ . '/../../src/services/PeopleService.php';
+require_once __DIR__ . '/../../src/services/BlogService.php';
 
 class AdminController {
     
@@ -45,13 +46,18 @@ class AdminController {
             }
         }
         
+        // Get blog posts
+        $blogPosts = BlogService::getAllBlogPosts();
+        
         return [
             'events' => $events,
             'people' => $people,
             'transactions' => $transactions,
+            'blogPosts' => $blogPosts,
             'totalEvents' => count($allEvents),
             'totalPeople' => count($allPeople),
-            'totalTransactions' => count($transactions)
+            'totalTransactions' => count($transactions),
+            'totalBlogPosts' => count($blogPosts)
         ];
     }
     

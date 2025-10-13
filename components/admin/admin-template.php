@@ -21,6 +21,7 @@ $adminData = AdminController::getData();
             <h2>Admin Panel</h2>
             <nav class="admin-menu">
                 <a href="#events" class="active">Events</a>
+                <a href="#blog">Blog</a>
                 <a href="#people">People of TZT</a>
             </nav>
         </aside>
@@ -45,6 +46,45 @@ $adminData = AdminController::getData();
                     </thead>
                     <tbody>
                         <!-- Events will be loaded dynamically via JavaScript -->
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- Blog Section -->
+            <section id="section-blog" class="admin-section">
+                <div class="admin-header">
+                    <h1>Blog Posts</h1>
+                    <button class="admin-btn" id="add-blog-btn">Add New Blog Post</button>
+                </div>
+                
+                <div class="admin-filters">
+                    <select id="blog-language-filter">
+                        <option value="">All Languages</option>
+                        <option value="en">English</option>
+                        <option value="mk">Македонски</option>
+                        <option value="fr">Français</option>
+                    </select>
+                    <select id="blog-visibility-filter">
+                        <option value="">All Posts</option>
+                        <option value="1">Visible</option>
+                        <option value="0">Hidden</option>
+                    </select>
+                </div>
+                
+                <table class="admin-table" id="blog-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Language</th>
+                            <th>Main Title</th>
+                            <th>Secondary Title</th>
+                            <th>Visible</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Blog posts will be loaded dynamically -->
                     </tbody>
                 </table>
             </section>
@@ -220,6 +260,95 @@ $adminData = AdminController::getData();
         </div>
     </div>
     
+    <!-- Blog Modal -->
+    <div id="blog-modal" class="blog-modal">
+        <div class="modal-content">
+            <h2 id="blog-modal-title">Add/Edit Blog Post</h2>
+            <form id="blog-form">
+                <input type="hidden" id="blog-id" name="id">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="blog-language">Language:</label>
+                        <select id="blog-language" name="language" required>
+                            <option value="en">English</option>
+                            <option value="mk">Македонски</option>
+                            <option value="fr">Français</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="blog-visible">
+                            <input type="checkbox" id="blog-visible" name="visible" checked>
+                            Visible
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="blog-main-title">Main Title:</label>
+                    <input type="text" id="blog-main-title" name="main_title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="blog-main-text">Main Text:</label>
+                    <textarea id="blog-main-text" name="main_text" rows="6" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="blog-main-image">Main Image:</label>
+                    <div class="image-upload-container">
+                        <input type="file" id="blog-main-image-upload" accept="image/*" style="display: none;">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('blog-main-image-upload').click()">
+                            📁 Upload Image
+                        </button>
+                        <input type="url" id="blog-main-image" name="main_image" placeholder="Or enter image URL" required>
+                        <div class="image-preview" id="main-image-preview"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="blog-secondary-title">Secondary Title:</label>
+                    <input type="text" id="blog-secondary-title" name="secondary_title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="blog-secondary-text">Secondary Text:</label>
+                    <textarea id="blog-secondary-text" name="secondary_text" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="blog-secondary-image">Secondary Image:</label>
+                    <div class="image-upload-container">
+                        <input type="file" id="blog-secondary-image-upload" accept="image/*" style="display: none;">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('blog-secondary-image-upload').click()">
+                            📁 Upload Image
+                        </button>
+                        <input type="url" id="blog-secondary-image" name="secondary_image" placeholder="Or enter image URL" required>
+                        <div class="image-preview" id="secondary-image-preview"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="blog-gallery-images">Gallery Images:</label>
+                    <div class="gallery-upload-container">
+                        <input type="file" id="blog-gallery-upload" accept="image/*" multiple style="display: none;">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('blog-gallery-upload').click()">
+                            📁 Upload Multiple Images
+                        </button>
+                        <textarea id="blog-gallery-images" name="gallery_images" rows="4" placeholder="Or enter image URLs (one per line):&#10;https://example.com/image1.jpg&#10;https://example.com/image2.jpg"></textarea>
+                        <div class="image-preview" id="gallery-images-preview"></div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="admin-btn">Save</button>
+                    <button type="button" class="admin-btn btn-secondary" id="blog-cancel-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <script src="components/admin/admin.js"></script>
+    <script src="components/admin/blog-admin.js"></script>
 </body>
 </html> 
