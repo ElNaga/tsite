@@ -19,6 +19,9 @@
     <div class="contact-container">
         <!-- Page Header -->
         <div class="contact-header">
+            <div class="contact-header-image">
+                <img src="/assets/background-image.png" alt="Teatar za tebe">
+            </div>
             <h1><?= htmlspecialchars(TranslationService::t('contact_page_title')) ?></h1>
             <p class="contact-subtitle"><?= htmlspecialchars(TranslationService::t('contact_page_subtitle')) ?></p>
             <p class="contact-description"><?= htmlspecialchars(TranslationService::t('contact_page_description')) ?></p>
@@ -108,7 +111,7 @@
                             id="message" 
                             name="message" 
                             class="form-control" 
-                            rows="6"
+                            rows="3"
                             placeholder="<?= htmlspecialchars(TranslationService::t('contact_form_message_placeholder')) ?>"
                             required
                             aria-required="true"
@@ -164,7 +167,15 @@
                     <div class="info-icon">📍</div>
                     <div class="info-content">
                         <h3><?= htmlspecialchars(TranslationService::t('contact_info_address')) ?></h3>
-                        <p>Скопје, Македонија</p>
+                        <p>Скопје, Северна Македонија</p>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">⏰</div>
+                    <div class="info-content">
+                        <h3><?= htmlspecialchars(TranslationService::t('contact_info_hours')) ?></h3>
+                        <p><?= htmlspecialchars(TranslationService::t('contact_info_hours_text')) ?></p>
                     </div>
                 </div>
             </div>

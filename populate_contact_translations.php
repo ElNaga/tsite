@@ -1,48 +1,12 @@
 <?php
 /**
- * Contact Feature Migration Script
- * 
- * This script:
- * 1. Creates the contact_messages table
- * 2. Adds contact form translations to the database
- * 
- * Run this script once to set up the contact form feature.
- * 
- * Usage: php migrate_contact.php
+ * Quick script to populate contact form translations
+ * Run this to add contact translations to existing database
  */
 
 require_once __DIR__ . '/bootstrap.php';
 
 try {
-    echo "Starting Contact Feature Migration...\n\n";
-    
-    // Create contact_messages table
-    echo "Creating contact_messages table...\n";
-    
-    $pdo->exec("
-        CREATE TABLE IF NOT EXISTS contact_messages (
-            id INT PRIMARY KEY AUTO_INCREMENT,
-            full_name VARCHAR(100) NOT NULL,
-            email VARCHAR(255) NOT NULL,
-            phone VARCHAR(50) NULL,
-            subject VARCHAR(255) NULL,
-            message TEXT NOT NULL,
-            status ENUM('new', 'read', 'replied', 'archived') DEFAULT 'new',
-            language_code VARCHAR(2) NOT NULL,
-            ip_address VARCHAR(45) NULL,
-            user_agent TEXT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            FOREIGN KEY (language_code) REFERENCES languages(code),
-            INDEX idx_status (status),
-            INDEX idx_created_at (created_at),
-            INDEX idx_email (email)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-    ");
-    
-    echo "✓ contact_messages table created successfully\n\n";
-    
-    // Add translations
     echo "Adding contact form translations...\n";
     
     $translations = [
@@ -153,21 +117,18 @@ try {
     foreach ($translations as $translation) {
         $stmt->execute($translation);
         $count++;
+        echo "✓ Added: {$translation[0]} - {$translation[1]}\n";
     }
     
-    echo "✓ Added/updated $count translation entries\n\n";
-    
-    echo "=================================\n";
-    echo "Migration completed successfully!\n";
+    echo "\n=================================\n";
+    echo "Successfully added $count contact translations!\n";
     echo "=================================\n\n";
-    echo "The contact form is now ready to use.\n";
-    echo "Visit /contact on your website to see it in action.\n\n";
+    echo "Now visit /contact to see the form with proper text.\n";
     
 } catch (PDOException $e) {
-    echo "✗ Migration failed: " . $e->getMessage() . "\n";
+    echo "✗ Database error: " . $e->getMessage() . "\n";
     exit(1);
 } catch (Exception $e) {
     echo "✗ Error: " . $e->getMessage() . "\n";
     exit(1);
 }
-
