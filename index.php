@@ -80,6 +80,7 @@ debug_to_console("Test message");
     <link rel="stylesheet" href="components/hero/aboutus.css">
     <link rel="stylesheet" href="components/hero/about-page.css">
     <link rel="stylesheet" href="components/hero/footer.css">
+    <link rel="stylesheet" href="components/navbar/contact.css">
     <!-- Google Fonts: Caveat and Poiret One, both with latin and cyrillic support -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poiret+One&display=swap&subset=latin,cyrillic" rel="stylesheet">
 </head> 
