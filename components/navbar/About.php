@@ -105,17 +105,3 @@ $teamMembers = PeopleService::getVisiblePeople($currentLang);
         </div>
     </div>
 </section>
-
-<!-- Call to Action Section -->
-<section class="about-cta-section">
-    <div class="container">
-        <div class="cta-content">
-            <h2><?= htmlspecialchars(TranslationService::t('about_cta_title')) ?></h2>
-            <p><?= htmlspecialchars(TranslationService::t('about_cta_desc')) ?></p>
-            <div class="cta-buttons">
-                <a href="/offer" class="cta-button primary"><?= htmlspecialchars(TranslationService::t('book_now')) ?></a>
-                <a href="/contact" class="cta-button secondary"><?= htmlspecialchars(TranslationService::t('contact')) ?></a>
-            </div>
-        </div>
-    </div>
-</section> 

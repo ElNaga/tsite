@@ -237,67 +237,6 @@
     margin-top: 40px;
 }
 
-/* CTA Section */
-.about-cta-section {
-    padding: 80px 0;
-    background: linear-gradient(135deg, #d7263d 0%, #8B0000 100%);
-    color: white;
-    text-align: center;
-}
-
-.cta-content h2 {
-    font-family: var(--font-title);
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    font-weight: 400;
-}
-
-.cta-content p {
-    font-size: 1.2rem;
-    margin-bottom: 40px;
-    opacity: 0.9;
-}
-
-.cta-buttons {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.cta-button {
-    display: inline-block;
-    padding: 15px 30px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-}
-
-.cta-button.primary {
-    background: white;
-    color: #d7263d;
-    border-color: white;
-}
-
-.cta-button.primary:hover {
-    background: transparent;
-    color: white;
-    border-color: white;
-}
-
-.cta-button.secondary {
-    background: transparent;
-    color: white;
-    border-color: white;
-}
-
-.cta-button.secondary:hover {
-    background: white;
-    color: #d7263d;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -347,8 +286,7 @@
     .mission-section,
     .story-section,
     .values-section,
-    .team-section,
-    .about-cta-section {
+    .team-section {
         padding: 60px 0;
     }
     
