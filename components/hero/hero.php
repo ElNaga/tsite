@@ -25,9 +25,15 @@ $events = EventService::getEvents();
                         <div class="hero-event-progress-bar" id="hero-event-progress-bar"></div>
                     </div>
                     <div class="hero-event-list">
-                        <?php foreach ($events as $idx => $ev): ?>
-                            <span class="hero-event-list-dot" data-idx="<?= $idx ?>"></span>
-                        <?php endforeach; ?>
+                        <div class="hero-event-dots-scroll-btn hero-event-dots-scroll-left" style="display: none;">‹</div>
+                        <div class="hero-event-dots-container">
+                            <span class="hero-event-overflow-dot hero-event-overflow-left" style="display: none;">⋯</span>
+                            <?php foreach ($events as $idx => $ev): ?>
+                                <span class="hero-event-list-dot" data-idx="<?= $idx ?>"></span>
+                            <?php endforeach; ?>
+                            <span class="hero-event-overflow-dot hero-event-overflow-right" style="display: none;">⋯</span>
+                        </div>
+                        <div class="hero-event-dots-scroll-btn hero-event-dots-scroll-right" style="display: none;">›</div>
                     </div>
                 </div>
                 <div class="hero-event-image-side">
@@ -56,38 +62,202 @@ const desc = document.getElementById('hero-event-desc');
 const btn = document.getElementById('hero-event-btn');
 const progressBar = document.getElementById('hero-event-progress-bar');
 const dots = document.querySelectorAll('.hero-event-list-dot');
+const dotsContainer = document.querySelector('.hero-event-dots-container');
+const scrollLeftBtn = document.querySelector('.hero-event-dots-scroll-left');
+const scrollRightBtn = document.querySelector('.hero-event-dots-scroll-right');
+const heroCard = document.getElementById('hero-event-card');
+
+// Overflow dot elements
+const overflowLeft = document.querySelector('.hero-event-overflow-left');
+const overflowRight = document.querySelector('.hero-event-overflow-right');
+
+// Configuration
+const MAX_VISIBLE_DOTS = 5;
+let dotsScrollOffset = 0;
+let touchStartX = 0;
+let touchEndX = 0;
+
+// Initialize dots visibility and scrolling
+function initDotsScrolling() {
+    if (dots.length <= MAX_VISIBLE_DOTS) {
+        scrollLeftBtn.style.display = 'none';
+        scrollRightBtn.style.display = 'none';
+        return;
+    }
+    
+    updateScrollButtons();
+    updateDotsVisibility();
+}
+
+function updateScrollButtons() {
+    scrollLeftBtn.style.display = dotsScrollOffset > 0 ? 'block' : 'none';
+    scrollRightBtn.style.display = dotsScrollOffset < dots.length - MAX_VISIBLE_DOTS ? 'block' : 'none';
+}
+
+function updateDotsVisibility() {
+    dots.forEach((dot, index) => {
+        const isActive = dot.classList.contains('active');
+        const isVisible = index >= dotsScrollOffset && index < dotsScrollOffset + MAX_VISIBLE_DOTS;
+        const shouldShow = isVisible || isActive; // Always show active dot
+        const isFirstVisible = index === dotsScrollOffset;
+        const isLastVisible = index === dotsScrollOffset + MAX_VISIBLE_DOTS - 1;
+        
+        // Remove any existing transition classes
+        dot.classList.remove('dot-fade-in', 'dot-fade-out');
+        
+        if (shouldShow) {
+            // Show dot
+            dot.style.display = 'inline-block';
+            
+            // Add fade-in animation
+            dot.classList.add('dot-fade-in');
+        } else {
+            // Hide dot with fade-out animation
+            dot.classList.add('dot-fade-out');
+            
+            // Hide after animation completes
+            setTimeout(() => {
+                if (dot.classList.contains('dot-fade-out')) {
+                    dot.style.display = 'none';
+                    dot.classList.remove('dot-fade-out');
+                }
+            }, 300);
+        }
+        
+        // Apply edge dot styling (but not to active dot)
+        if (shouldShow && !isActive) {
+            if ((isFirstVisible || isLastVisible)) {
+                dot.classList.add('edge-dot');
+            } else {
+                dot.classList.remove('edge-dot');
+            }
+        } else {
+            dot.classList.remove('edge-dot');
+        }
+    });
+    
+    // Update overflow indicators
+    overflowLeft.style.display = dotsScrollOffset > 0 ? 'inline-block' : 'none';
+    overflowRight.style.display = dotsScrollOffset < dots.length - MAX_VISIBLE_DOTS ? 'inline-block' : 'none';
+}
+
+function scrollDotsLeft() {
+    if (currentIdx > 0) {
+        // Go to previous event
+        currentIdx--;
+        showEventWithLayout(currentIdx);
+    }
+}
+
+function scrollDotsRight() {
+    if (currentIdx < events.length - 1) {
+        // Go to next event
+        currentIdx++;
+        showEventWithLayout(currentIdx);
+    }
+}
+
+// Auto-scroll to keep current dot visible (simplified)
+function ensureCurrentDotVisible() {
+    if (dots.length <= MAX_VISIBLE_DOTS) return;
+    
+    const currentDotIndex = currentIdx;
+    const visibleStart = dotsScrollOffset;
+    const visibleEnd = dotsScrollOffset + MAX_VISIBLE_DOTS - 1;
+    
+    // If active dot is outside visible window, adjust scroll offset
+    if (currentDotIndex < visibleStart) {
+        // Active dot is to the left, move scroll window left
+        dotsScrollOffset = currentDotIndex;
+    } else if (currentDotIndex > visibleEnd) {
+        // Active dot is to the right, move scroll window right
+        dotsScrollOffset = currentDotIndex - MAX_VISIBLE_DOTS + 1;
+    }
+    
+    updateDotsVisibility();
+    updateScrollButtons();
+}
 
 function showEvent(idx) {
     if (!events.length) return;
     const ev = events[idx];
+    
+    // Update content immediately
     image.src = ev.image;
     image.alt = ev.image_alt;
     title.textContent = ev.title;
     desc.textContent = ev.description;
     btn.textContent = ev.book_label;
     btn.href = ev.book_url;
+    
     dots.forEach(dot => dot.classList.remove('active'));
     if (dots[idx]) dots[idx].classList.add('active');
-    progressBar.style.transition = 'none';
-    progressBar.style.width = '0%';
-    setTimeout(() => {
-        progressBar.style.transition = `width ${duration}ms linear`;
-        progressBar.style.width = '100%';
-    }, 50);
+    
+    // Ensure current dot is visible and update edge styling
+    ensureCurrentDotVisible();
+    updateDotsVisibility();
+    
+    // Start progress bar animation
+    startProgressBar();
 }
 
+// Event listeners
 dots.forEach(dot => {
     dot.addEventListener('click', () => {
         currentIdx = parseInt(dot.getAttribute('data-idx'));
-        showEvent(currentIdx);
+        showEventWithLayout(currentIdx);
         resetInterval();
     });
 });
 
+// Scroll button event listeners will be set up after functions are defined
+
+// Simple progress bar function
+function startProgressBar() {
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    
+    setTimeout(() => {
+        progressBar.style.transition = `width ${duration}ms linear`;
+        progressBar.style.width = '100%';
+    }, 10);
+}
+
+// Touch/swipe functionality for mobile
+heroCard.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+});
+
+heroCard.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].clientX;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const swipeDistance = touchStartX - touchEndX;
+    
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+            // Swipe left - next event
+            nextEvent();
+        } else {
+            // Swipe right - previous event
+            previousEvent();
+        }
+    }
+}
+
 function nextEvent() {
     if (!events.length) return;
     currentIdx = (currentIdx + 1) % events.length;
-    showEvent(currentIdx);
+    showEventWithLayout(currentIdx);
+}
+
+function previousEvent() {
+    if (!events.length) return;
+    currentIdx = currentIdx === 0 ? events.length - 1 : currentIdx - 1;
+    showEventWithLayout(currentIdx);
 }
 
 let interval = setInterval(nextEvent, duration);
@@ -96,5 +266,40 @@ function resetInterval() {
     interval = setInterval(nextEvent, duration);
 }
 
-if (events.length) showEvent(0);
+// Responsive layout detection
+function isDesktopLayout() {
+    return window.innerWidth >= 1200;
+}
+
+function isTabletLayout() {
+    return window.innerWidth >= 769 && window.innerWidth <= 1199;
+}
+
+function isMobileLayout() {
+    return window.innerWidth <= 768;
+}
+
+// Enhanced showEvent function
+function showEventWithLayout(idx) {
+    showEvent(idx);
+}
+
+// Set up scroll button event listeners
+if (scrollLeftBtn && scrollRightBtn) {
+    scrollLeftBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        scrollDotsLeft();
+    });
+    
+    scrollRightBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        scrollDotsRight();
+    });
+}
+
+// Initialize
+if (events.length) {
+    showEventWithLayout(0);
+    initDotsScrolling();
+}
 </script> 
