@@ -62,13 +62,39 @@ $aboutSections = [
       if (isAdminPrompted) return;
       isAdminPrompted = true;
       setTimeout(() => { isAdminPrompted = false; }, 2000);
+      
       const pwd = prompt('Enter admin password:');
-      if (pwd && pwd === 'admin123') {
-        // Set session via fetch, then redirect
-        fetch('/admin_login.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ login: true }) })
-          .then(() => { window.location.href = '/admin'; });
-      } else if (pwd !== null) {
-        alert('Incorrect password.');
+      if (pwd !== null) {
+        // Show loading state
+        const originalPrompt = prompt;
+        prompt = function() { return null; }; // Disable further prompts
+        
+        // Authenticate via database
+        fetch('/api/admin/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ password: pwd })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Success - redirect to admin
+            window.location.href = '/admin';
+          } else {
+            // Show error message
+            alert('Incorrect password: ' + (data.error || 'Authentication failed'));
+          }
+        })
+        .catch(error => {
+          console.error('Admin login error:', error);
+          alert('Login failed. Please try again.');
+        })
+        .finally(() => {
+          // Re-enable prompts
+          prompt = originalPrompt;
+        });
       }
     }
   });

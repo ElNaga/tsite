@@ -65,7 +65,31 @@ class AdminController {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        return !empty($_SESSION['is_admin']);
+        
+        // Check if admin session exists and is valid
+        if (empty($_SESSION['is_admin']) || empty($_SESSION['admin_user_id'])) {
+            return false;
+        }
+        
+        // Check session timeout (24 hours)
+        $sessionTimeout = 24 * 60 * 60; // 24 hours in seconds
+        if (isset($_SESSION['admin_login_time']) && (time() - $_SESSION['admin_login_time']) > $sessionTimeout) {
+            // Session expired, clear admin session
+            self::clearAdminSession();
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public static function clearAdminSession() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        unset($_SESSION['is_admin']);
+        unset($_SESSION['admin_user_id']);
+        unset($_SESSION['admin_username']);
+        unset($_SESSION['admin_login_time']);
     }
     
     public static function requireAdmin() {

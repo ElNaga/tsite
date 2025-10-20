@@ -123,9 +123,25 @@ INSERT INTO languages (code, name) VALUES
 ('mk', 'Македонски'),
 ('fr', 'Français');
 
+-- Admin users table for secure admin authentication
+CREATE TABLE admin_users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_username (username),
+    INDEX idx_active (active)
+);
+
 -- Insert default admin user (password: admin123)
 INSERT INTO users (email, password_hash, name, role) VALUES 
 ('admin@teatarzatebe.mk', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Admin User', 'admin');
+
+-- Insert default admin user for Ctrl+I authentication
+INSERT INTO admin_users (username, password_hash, active) VALUES 
+('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', TRUE);
 
 -- People table for team members
 CREATE TABLE people (
