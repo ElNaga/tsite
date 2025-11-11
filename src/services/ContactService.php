@@ -33,11 +33,11 @@ class ContactService {
                 if ($result === true) {
                     // Create PDO connection manually
                     $config = [
-                        'host' => getenv('DB_HOST') ?: '127.0.0.1',
-                        'port' => getenv('DB_PORT') ?: '3307',
-                        'db'   => getenv('DB_NAME') ?: 'teatar_zatebe',
-                        'user' => getenv('DB_USER') ?: 'tzt',
-                        'pass' => getenv('DB_PASS') ?: 'tztpass',
+                        'host' => getenv('DB_HOST') ?: $_ENV['DB_HOST'] ?? 'localhost',
+                        'port' => getenv('DB_PORT') ?: $_ENV['DB_PORT'] ?? '3306',
+                        'db'   => getenv('DB_NAME') ?: $_ENV['DB_NAME'] ?? 'teatar_zatebe',
+                        'user' => getenv('DB_USER') ?: $_ENV['DB_USER'] ?? 'root',
+                        'pass' => getenv('DB_PASS') ?: $_ENV['DB_PASS'] ?? '',
                         'charset' => 'utf8mb4'
                     ];
 
