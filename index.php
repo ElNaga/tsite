@@ -5,20 +5,30 @@ $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 // Handle API requests
 if (strpos($path, 'api/') === 0) {
     $apiPath = substr($path, 4); // Remove 'api/' prefix
-    $pathParts = explode('/', $apiPath);
-    $apiFile = __DIR__ . '/api/' . $pathParts[0] . '.php';
-    
-    if (file_exists($apiFile)) {
-        // Set up the path parts for the API file to use
+    $pathParts = $apiPath === '' ? [] : explode('/', $apiPath);
+
+    $nestedApiFile = __DIR__ . '/api/' . $apiPath . '.php';
+    $apiFile = null;
+
+    if ($apiPath !== '' && file_exists($nestedApiFile)) {
+        $apiFile = $nestedApiFile;
+    } elseif (!empty($pathParts)) {
+        $topLevelFile = __DIR__ . '/api/' . $pathParts[0] . '.php';
+        if (file_exists($topLevelFile)) {
+            $apiFile = $topLevelFile;
+        }
+    }
+
+    if ($apiFile !== null) {
         $_GET['path_parts'] = $pathParts;
         include $apiFile;
         exit;
-    } else {
-        http_response_code(404);
-        header('Content-Type: application/json');
-        echo json_encode(['error' => 'API endpoint not found']);
-        exit;
     }
+
+    http_response_code(404);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'API endpoint not found']);
+    exit;
 }
 
 // Handle admin routes

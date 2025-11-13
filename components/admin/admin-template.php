@@ -301,7 +301,7 @@ $adminData = AdminController::getData();
                         <button type="button" class="upload-btn" onclick="document.getElementById('blog-main-image-upload').click()">
                             📁 Upload Image
                         </button>
-                        <input type="url" id="blog-main-image" name="main_image" placeholder="Or enter image URL" required>
+                        <input type="text" id="blog-main-image" name="main_image" placeholder="Or enter image URL" required>
                         <div class="image-preview" id="main-image-preview"></div>
                     </div>
                 </div>
@@ -323,7 +323,7 @@ $adminData = AdminController::getData();
                         <button type="button" class="upload-btn" onclick="document.getElementById('blog-secondary-image-upload').click()">
                             📁 Upload Image
                         </button>
-                        <input type="url" id="blog-secondary-image" name="secondary_image" placeholder="Or enter image URL" required>
+                        <input type="text" id="blog-secondary-image" name="secondary_image" placeholder="Or enter image URL" required>
                         <div class="image-preview" id="secondary-image-preview"></div>
                     </div>
                 </div>
