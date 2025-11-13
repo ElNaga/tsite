@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadBlogPosts();
 
         // Event listeners
-        addBlogBtn.addEventListener('click', openBlogModal);
+        addBlogBtn.addEventListener('click', () => openBlogModal());
         blogCancelBtn.addEventListener('click', closeBlogModal);
         blogForm.addEventListener('submit', handleBlogSubmit);
         languageFilter.addEventListener('change', filterBlogPosts);
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.success) {
                     targetInput.value = data.url;
                     showUploadStatus(previewContainer, 'Upload successful!', 'success');
-                    updateImagePreview(targetInputId);
+                    updateImagePreview(targetInput, previewContainer);
 
                     // Clear the file input
                     event.target.value = '';
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
 
                     showUploadStatus(previewContainer, statusMessage, 'success');
-                    updateImagePreview('blog-gallery-images');
+                    updateImagePreview(galleryTextarea, previewContainer);
                 } else {
                     showUploadStatus(previewContainer, 'All uploads failed', 'error');
                 }
@@ -297,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             modalTitle.textContent = 'Add New Blog Post';
             form.reset();
+            document.getElementById('blog-id').value = '';
             document.getElementById('blog-visible').checked = true;
             clearImagePreviews();
         }
@@ -309,6 +310,7 @@ document.addEventListener('DOMContentLoaded', function () {
         blogModal.style.display = 'none';
         document.body.style.overflow = '';
         blogForm.reset();
+        document.getElementById('blog-id').value = '';
         clearImagePreviews();
     }
 
@@ -351,22 +353,22 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         const formData = new FormData(blogForm);
-        const postId = formData.get('id');
+        const postId = document.getElementById('blog-id').value;
         const galleryImages = formData.get('gallery_images')
             .split('\n')
             .map(url => url.trim())
             .filter(url => url.length > 0);
 
         const data = {
-            language: formData.get('language'),
-            main_title: formData.get('main_title'),
-            main_text: formData.get('main_text'),
-            main_image: formData.get('main_image'),
-            secondary_title: formData.get('secondary_title'),
-            secondary_text: formData.get('secondary_text'),
-            secondary_image: formData.get('secondary_image'),
+            language: document.getElementById('blog-language').value,
+            main_title: document.getElementById('blog-main-title').value,
+            main_text: document.getElementById('blog-main-text').value,
+            main_image: document.getElementById('blog-main-image').value,
+            secondary_title: document.getElementById('blog-secondary-title').value,
+            secondary_text: document.getElementById('blog-secondary-text').value,
+            secondary_image: document.getElementById('blog-secondary-image').value,
             gallery_images: galleryImages,
-            visible: formData.get('visible') === 'on'
+            visible: document.getElementById('blog-visible').checked
         };
 
         const url = postId ? `/api/blog/${postId}` : '/api/blog';
@@ -413,6 +415,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateImagePreview(inputElement, previewElement) {
+        console.log('updateImagePreview args:', inputElement, previewElement);
+        if (!inputElement || !previewElement) {
+            console.warn('Missing preview elements', inputElement, previewElement);
+            return;
+        }
         const value = inputElement.value.trim();
 
         if (inputElement.id === 'blog-gallery-images') {
