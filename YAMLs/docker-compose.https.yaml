@@ -1,0 +1,129 @@
+# Production configuration with HTTPS support
+version: '3.8'
+
+services:
+  # Traefik reverse proxy for SSL/TLS termination
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik_tzt
+    restart: unless-stopped
+    command:
+      - "--log.level=INFO"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      # Uncomment and set your email for Let's Encrypt certificates:
+      - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL:-your-email@example.com}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - web
+
+  # Existing MySQL service
+  mysql:
+    image: mysql:8.4
+    container_name: mysql_tzt
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: teatar_zatebe
+      MYSQL_USER: tzt
+      MYSQL_PASSWORD: tztpass
+      TZ: Europe/Skopje
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - internal
+      - web
+    labels:
+      - "traefik.enable=false"
+
+  # Existing PHP/Apache service with Traefik labels
+  php:
+    image: php:8.2-apache
+    container_name: php_tzt
+    restart: unless-stopped
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: teatar_zatebe
+      DB_USER: tzt
+      DB_PASS: tztpass
+      # Uncomment and set your domain:
+      # VIRTUAL_HOST: teatarzatebe.mk
+      # LETSENCRYPT_HOST: teatarzatebe.mk
+    volumes:
+      - ../:/var/www/html
+    depends_on:
+      - mysql
+    command: >
+      sh -c "apt-get update && apt-get install -y libzip-dev zip unzip && 
+             docker-php-ext-install pdo pdo_mysql zip && 
+             a2enmod rewrite && 
+             apache2-foreground"
+    networks:
+      - internal
+      - web
+    labels:
+      # HTTP entrypoint
+      - "traefik.enable=true"
+      - "traefik.http.routers.php.rule=Host(`${DOMAIN_NAME:-localhost}`)"
+      - "traefik.http.routers.php.entrypoints=web"
+      - "traefik.http.routers.php.middlewares=redirect-to-https"
+      # HTTPS entrypoint
+      - "traefik.http.routers.php-secure.rule=Host(`${DOMAIN_NAME:-localhost}`)"
+      - "traefik.http.routers.php-secure.entrypoints=websecure"
+      - "traefik.http.routers.php-secure.tls.certresolver=letsencrypt"
+      # Service
+      - "traefik.http.services.php.loadbalancer.server.port=80"
+      # Middleware to redirect HTTP to HTTPS
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+
+  # phpMyAdmin with Traefik labels (optional, only for production with password protection)
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: pma_tzt
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: rootpass
+    depends_on:
+      - mysql
+    networks:
+      - internal
+      - web
+    labels:
+      # Optional: Secure phpMyAdmin with basic auth or domain restriction
+      - "traefik.enable=false"
+      # Uncomment and customize for production:
+      # - "traefik.enable=true"
+      # - "traefik.http.routers.pma.rule=Host(`pma.${DOMAIN_NAME:-localhost}`)"
+      # - "traefik.http.routers.pma.entrypoints=websecure"
+      # - "traefik.http.routers.pma.tls.certresolver=letsencrypt"
+      # - "traefik.http.services.pma.loadbalancer.server.port=80"
+
+networks:
+  web:
+    external: false
+  internal:
+    external: false
+
+volumes:
+  db_data:
+
+
+
+
+

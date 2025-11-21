@@ -5,6 +5,11 @@
  * Matches the Teatar za tebe brand identity.
  */
 
+:root {
+    --font-title: 'Caveat', 'Poiret One', cursive, sans-serif;
+    --font-body: 'Poiret One', 'Caveat', cursive, sans-serif;
+}
+
 .contact-page {
     padding: 30px 20px 20px 20px;
     background: linear-gradient(135deg, #ffffff 0%, #ffe6e6 100%);
@@ -52,7 +57,7 @@
     font-weight: 700;
     color: #dc143c;
     margin-bottom: 8px;
-    font-family: 'Caveat', cursive;
+    font-family: var(--font-title, 'Caveat', cursive);
     text-shadow: 2px 2px 4px rgba(220, 20, 60, 0.1);
 }
 
@@ -60,7 +65,7 @@
     font-size: 1.1rem;
     color: #c41e3a;
     margin-bottom: 8px;
-    font-family: 'Poiret One', sans-serif;
+    font-family: var(--font-body, 'Poiret One', sans-serif);
 }
 
 .contact-description {
@@ -69,6 +74,7 @@
     max-width: 700px;
     margin: 0 auto;
     line-height: 1.4;
+    font-family: var(--font-body, 'Poiret One', sans-serif);
 }
 
 /* Content Layout */
@@ -99,7 +105,7 @@
     font-weight: 600;
     color: #333;
     margin-bottom: 5px;
-    font-family: 'Poiret One', sans-serif;
+    font-family: var(--font-body, 'Poiret One', sans-serif);
 }
 
 .required {
@@ -115,7 +121,7 @@
     border: 2px solid #e0e0e0;
     border-radius: 8px;
     transition: all 0.3s ease;
-    font-family: inherit;
+    font-family: var(--font-body, 'Poiret One', sans-serif);
     background-color: #f9f9f9;
 }
 
@@ -166,7 +172,7 @@ textarea.form-control {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Poiret One', sans-serif;
+    font-family: var(--font-body, 'Poiret One', sans-serif);
     position: relative;
     overflow: hidden;
 }
@@ -260,7 +266,7 @@ textarea.form-control {
     font-size: 1.5rem;
     color: #dc143c;
     margin-bottom: 15px;
-    font-family: 'Caveat', cursive;
+    font-family: var(--font-title, 'Caveat', cursive);
 }
 
 .info-item {
@@ -287,7 +293,7 @@ textarea.form-control {
     font-size: 0.95rem;
     color: #dc143c;
     margin-bottom: 3px;
-    font-family: 'Poiret One', sans-serif;
+    font-family: var(--font-body, 'Poiret One', sans-serif);
 }
 
 .info-content p,

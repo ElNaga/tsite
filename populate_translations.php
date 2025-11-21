@@ -121,11 +121,12 @@ try {
         ['fr', 'terms_of_service', 'Conditions d\'utilisation']
     ];
     
-    $stmt = $pdo->prepare("INSERT IGNORE INTO translations (language_code, translation_key, translation_value) VALUES (?, ?, ?)");
+    // Use REPLACE to update existing entries with proper encoding
+    $stmt = $pdo->prepare("REPLACE INTO translations (language_code, translation_key, translation_value) VALUES (?, ?, ?)");
     foreach ($translations as $translation) {
         $stmt->execute($translation);
     }
-    echo "✓ Inserted " . count($translations) . " translations\n";
+    echo "✓ Inserted/Updated " . count($translations) . " translations with proper UTF-8 encoding\n";
     
     echo "<h2>✅ Translations Population Complete!</h2>\n";
     echo "<p><strong>Summary:</strong></p>\n";

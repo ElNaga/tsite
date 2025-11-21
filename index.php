@@ -54,6 +54,9 @@ require_once __DIR__ . '/src/services/EventService.php';
 // Load translations for current language
 TranslationService::loadTranslations();
 
+// Set proper charset header for UTF-8 (MUST be before any output)
+header('Content-Type: text/html; charset=UTF-8');
+
 function debug_to_console($data) {
     $output = $data;
     if (is_array($output))
@@ -62,7 +65,7 @@ function debug_to_console($data) {
     echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
 
-debug_to_console("Test message");   
+debug_to_console("Test message");
 
 ?>
 <!DOCTYPE html>

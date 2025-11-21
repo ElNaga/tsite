@@ -1,12 +1,51 @@
 <?php
 // Services are already loaded in index.php
-$events = EventService::getEvents();
+try {
+    $events = EventService::getEvents();
+} catch (Exception $e) {
+    // If database/service fails, use empty array
+    error_log("Hero: Failed to load events: " . $e->getMessage());
+    $events = [];
+}
+
+// Get carousel images from assets/hero-carousel directory
+// __DIR__ is components/hero/, so go up two levels to project root
+$carouselDir = __DIR__ . '/../../assets/hero-carousel/';
+$carouselImages = [];
+
+if (is_dir($carouselDir)) {
+    $files = @scandir($carouselDir);
+    if ($files !== false) {
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        
+        foreach ($files as $file) {
+            if ($file === '.' || $file === '..') continue;
+            
+            $filePath = $carouselDir . $file;
+            if (is_file($filePath)) {
+                $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                if (in_array($extension, $allowedExtensions)) {
+                    $carouselImages[] = '/assets/hero-carousel/' . htmlspecialchars($file, ENT_QUOTES, 'UTF-8');
+                }
+            }
+        }
+        
+        // Sort images alphabetically for consistent ordering
+        sort($carouselImages);
+    }
+}
+
+// If no images found, use a fallback
+if (empty($carouselImages)) {
+    $carouselImages[] = '/assets/background-image.png';
+}
 ?>
 <section class="hero-section">
-    <video class="hero-bg-video" autoplay loop muted playsinline>
-        <source src="/assets/videos/Edu.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <div class="hero-bg-carousel">
+        <?php foreach ($carouselImages as $index => $imageUrl): ?>
+            <div class="hero-carousel-slide<?= $index === 0 ? ' active' : '' ?>" style="background-image: url('<?= htmlspecialchars($imageUrl) ?>');"></div>
+        <?php endforeach; ?>
+    </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <div class="hero-event-card" id="hero-event-card">
@@ -302,4 +341,42 @@ if (events.length) {
     showEventWithLayout(0);
     initDotsScrolling();
 }
+</script>
+<script>
+// Hero background carousel functionality
+(function() {
+    const carouselSlides = document.querySelectorAll('.hero-carousel-slide');
+    if (carouselSlides.length === 0) return;
+    
+    let currentSlide = 0;
+    const carouselDuration = 5000; // 5 seconds per image
+    
+    function nextCarouselSlide() {
+        // Remove active class from current slide
+        carouselSlides[currentSlide].classList.remove('active');
+        
+        // Move to next slide
+        currentSlide = (currentSlide + 1) % carouselSlides.length;
+        
+        // Add active class to new slide
+        carouselSlides[currentSlide].classList.add('active');
+    }
+    
+    // Initialize: ensure first slide is active
+    carouselSlides[0].classList.add('active');
+    
+    // Start auto-rotation
+    let carouselInterval = setInterval(nextCarouselSlide, carouselDuration);
+    
+    // Pause on hover (optional enhancement)
+    const heroSection = document.querySelector('.hero-section');
+    if (heroSection) {
+        heroSection.addEventListener('mouseenter', () => {
+            clearInterval(carouselInterval);
+        });
+        heroSection.addEventListener('mouseleave', () => {
+            carouselInterval = setInterval(nextCarouselSlide, carouselDuration);
+        });
+    }
+})();
 </script> 

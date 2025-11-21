@@ -107,11 +107,8 @@ try {
         ['fr', 'contact_error_message_min', 'Le message doit comporter au moins 10 caractères']
     ];
     
-    $stmt = $pdo->prepare("
-        INSERT INTO translations (language_code, translation_key, translation_value)
-        VALUES (?, ?, ?)
-        ON DUPLICATE KEY UPDATE translation_value = VALUES(translation_value)
-    ");
+    // Use REPLACE to overwrite corrupted entries with proper UTF-8 encoding
+    $stmt = $pdo->prepare("REPLACE INTO translations (language_code, translation_key, translation_value) VALUES (?, ?, ?)");
     
     $count = 0;
     foreach ($translations as $translation) {

@@ -67,6 +67,28 @@ $teamMembers = PeopleService::getVisiblePeople($currentLang);
     </div>
 </section>
 
+<!-- Our Approach Section -->
+<section class="approach-section">
+    <div class="container">
+        <h2 class="section-title"><?= htmlspecialchars(TranslationService::t('about_approach_title')) ?></h2>
+        <div class="approach-content">
+            <?php 
+            $approachList = TranslationService::t('about_approach_list');
+            $items = explode('|', $approachList);
+            if (empty($items) || count($items) === 1) {
+                // Fallback: try comma separation
+                $items = explode(',', $approachList);
+            }
+            ?>
+            <ul class="approach-list">
+                <?php foreach ($items as $item): ?>
+                    <li><?= htmlspecialchars(trim($item)) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</section>
+
 <!-- Team Section -->
 <section class="team-section">
     <div class="container">

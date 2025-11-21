@@ -109,11 +109,12 @@ try {
         ['fr', 'footer_rights', 'Tous droits réservés.']
     ];
     
-    $stmt = $pdo->prepare("INSERT IGNORE INTO translations (language_code, translation_key, translation_value) VALUES (?, ?, ?)");
+    // Use REPLACE to update existing entries with proper encoding
+    $stmt = $pdo->prepare("REPLACE INTO translations (language_code, translation_key, translation_value) VALUES (?, ?, ?)");
     foreach ($missingTranslations as $translation) {
         $stmt->execute($translation);
     }
-    echo "✓ Inserted " . count($missingTranslations) . " missing translations\n";
+    echo "✓ Inserted/Updated " . count($missingTranslations) . " missing translations with proper UTF-8 encoding\n";
     
     // Add more events to fill the gaps
     echo "<h2>Adding More Events...</h2>\n";

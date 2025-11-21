@@ -76,11 +76,12 @@ try {
         ['fr', 'about_cta_desc', 'Que vous planifiiez une fête d\'anniversaire, que vous cherchiez des ateliers créatifs ou que vous souhaitiez collaborer avec nous, nous aimerions avoir de vos nouvelles.']
     ];
     
-    $stmt = $pdo->prepare("INSERT IGNORE INTO translations (language_code, translation_key, translation_value) VALUES (?, ?, ?)");
+    // Use REPLACE to update existing entries with proper encoding
+    $stmt = $pdo->prepare("REPLACE INTO translations (language_code, translation_key, translation_value) VALUES (?, ?, ?)");
     foreach ($aboutTranslations as $translation) {
         $stmt->execute($translation);
     }
-    echo "✓ Inserted " . count($aboutTranslations) . " about page translations\n";
+    echo "✓ Inserted/Updated " . count($aboutTranslations) . " about page translations with proper UTF-8 encoding\n";
     
     echo "<h2>✅ About Page Translations Complete!</h2>\n";
     echo "<p><strong>Summary:</strong></p>\n";

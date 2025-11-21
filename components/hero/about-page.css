@@ -37,7 +37,7 @@
 .mission-content {
     max-width: 800px;
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
 }
 
 .section-title {
@@ -47,6 +47,11 @@
     margin-bottom: 30px;
     font-weight: 400;
     letter-spacing: 1px;
+    text-align: left;
+}
+
+.mission-text {
+    text-align: left;
 }
 
 .mission-text p {
@@ -62,13 +67,20 @@
     background: #f8f9fa;
 }
 
+.story-section .container {
+    text-align: left;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
 .story-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
+    margin: 0;
 }
 
 .story-text h2 {
@@ -77,6 +89,7 @@
     color: #d7263d;
     margin-bottom: 25px;
     font-weight: 400;
+    text-align: left;
 }
 
 .story-text p {
@@ -100,12 +113,71 @@
     background: #fff;
 }
 
+.values-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
 .values-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 40px;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+/* Approach Section */
+.approach-section {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.approach-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.approach-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.approach-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    text-align: left;
+}
+
+.approach-list li {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    padding: 15px 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: relative;
+    padding-left: 50px;
+}
+
+.approach-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 20px;
+    color: #d7263d;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .value-item {
@@ -144,6 +216,14 @@
 .team-section {
     padding: 80px 0;
     background: #f8f9fa;
+}
+
+.team-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .team-intro {
@@ -266,6 +346,10 @@
         gap: 30px;
     }
     
+    .approach-list {
+        grid-template-columns: 1fr;
+    }
+    
     .team-grid {
         grid-template-columns: 1fr;
         gap: 30px;
@@ -286,6 +370,7 @@
     .mission-section,
     .story-section,
     .values-section,
+    .approach-section,
     .team-section {
         padding: 60px 0;
     }
