@@ -11,8 +11,8 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-CREATE DATABASE IF NOT EXISTS `teatar_zatebe`;
-USE `teatar_zatebe`;
+CREATE DATABASE IF NOT EXISTS `teatarzatebe`;
+USE `teatarzatebe`;
 
 -- Table structure for table `blog_posts`
 DROP TABLE IF EXISTS `blog_posts`;
