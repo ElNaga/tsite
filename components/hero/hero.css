@@ -220,13 +220,32 @@
 @media (max-width: 768px) {
     .hero-section {
         height: auto;
-        min-height: 350px;
+        min-height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .hero-bg-carousel {
+        height: 50vh;
+        min-height: 300px;
+        position: relative;
+        flex-shrink: 0;
+        z-index: 0;
+    }
+    .hero-overlay {
+        display: none;
     }
     .hero-content {
-        justify-content: center;
+        justify-content: flex-start;
         padding-left: 0;
         padding-right: 0;
-        padding-top: 0;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        position: relative;
+        height: auto;
+        min-height: auto;
+        z-index: 1;
+        background: transparent;
     }
     .hero-event-card {
         width: 92vw;
@@ -239,6 +258,8 @@
         padding: 0 4vw;
         gap: 0;
         touch-action: auto;
+        position: relative;
+        margin-top: 0;
     }
     .hero-event-split {
         flex-direction: column;
