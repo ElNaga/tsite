@@ -30,4 +30,18 @@
             </div>
         </div>
     </div>
-</nav> 
+</nav>
+<div class="navbar-spacer" aria-hidden="true"></div>
+<script>
+(() => {
+    const navbarMenu = document.querySelector('.navbar-menu');
+    const navbarToggle = document.querySelector('.navbar-toggle');
+    if (!navbarMenu || !navbarToggle) return;
+
+    document.addEventListener('click', (event) => {
+        if (!navbarMenu.classList.contains('show')) return;
+        if (navbarMenu.contains(event.target) || navbarToggle.contains(event.target)) return;
+        navbarMenu.classList.remove('show');
+    });
+})();
+</script>
